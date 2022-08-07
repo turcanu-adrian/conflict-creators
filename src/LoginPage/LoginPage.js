@@ -21,6 +21,7 @@ function getProfileData(accessToken){
         .then (resp => {
             setProfileData(resp.data[0]); //SAVE THE LOGIN DATA
             revokeAccessToken(accessToken); //REVOKE THE ACCESS TOKEN FOR SECURITY REASONS
+            window.location.href=process.env.REACT_APP_REDIRECT_URL;
         })
         .catch (err => {
             console.log(err);
@@ -28,9 +29,9 @@ function getProfileData(accessToken){
     }
 
 function setProfileData(data){
-    sessionStorage.set('login', data['login']);
-    sessionStorage.set('display_name', data['display_name']);
-    sessionStorage.set('profile_pic', data['profile_image_url']);
+    sessionStorage.setItem('login', data['login']);
+    sessionStorage.setItem('display_name', data['display_name']);
+    sessionStorage.setItem('profile_pic', data['profile_image_url']);
 }
 
 function revokeAccessToken(accessToken){
