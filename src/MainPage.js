@@ -3,12 +3,12 @@ import {GamePage} from './GamePage/GamePage.js';
 
 const MainPage = () =>
 {
-  const isLoggedIn = (sessionStorage['username'] === undefined ? false : true)
+  const isLoggedIn = (sessionStorage['login'] === undefined ? false : true)
 
   if (isLoggedIn)
     return (<div id='gameContainer'><GamePage/></div>) 
   else
-  return (<div id='gameContainer'><LoginPage/></div>)
+    return (<div id='gameContainer'><LoginPage/></div>)
 }
 
 export {MainPage};
