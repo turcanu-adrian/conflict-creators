@@ -1,5 +1,5 @@
 const StreamerProfile = () => {
-    const profilePic = new Image().src = sessionStorage['profilepic']
+    const profilePic = new Image().src = sessionStorage['profile_pic']
 
     return (<>
         <div className='streamerProfile'>
