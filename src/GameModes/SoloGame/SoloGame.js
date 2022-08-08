@@ -11,9 +11,16 @@ const SoloGame = () => {
     const questions = useRef(null);
 
     const phases = Object.freeze({
-        loading: <LoadingScreen/>,
-        join: <JoinPhase joiners={joiners}/>,
-        answers:<AnswerPhase/>
+        loading: {
+            element: <LoadingScreen/>
+        },
+        join: {
+            element: <JoinPhase joiners={joiners}/>,
+            function: ((tags, message)=> joinFunction(tags,message,joiners,setJoiners))
+        },
+        answers: {
+            element: <AnswerPhase/>
+        }
     });
 
     const phasesFunctions = Object.freeze({
@@ -30,12 +37,12 @@ const SoloGame = () => {
                 chat.current.on('message', (channel, tags, message, self) => {
                     if (self)
                         return;
-                    phasesFunctions[currentPhase](tags, message); //DO GAME LOGIC OF CURRENT PHASE
+                    phases[currentPhase].function(tags, message); //DO GAME LOGIC OF CURRENT PHASE
                 });
             })
     }, [])
 
-    return (phases[currentPhase])
+    return (phases[currentPhase].element)
 }
 
 
