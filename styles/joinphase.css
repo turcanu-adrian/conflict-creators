@@ -1,0 +1,32 @@
+.joinerName{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.2em;
+    width: 90%;
+    font-size: 1rem;
+    clear: left;
+    line-height: 1em;
+    margin-bottom: 1em;
+}
+
+.joinerName img{
+    height: 1.1rem;
+    float: left;
+}
+
+.joinerName span:nth-child(1){
+    padding-left: 0.2em;
+    font-weight: 700;
+}
+
+
+
+#joinersContainer{
+    background-color: #18181b;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    height: 41%;
+    padding-top: 0.8em;
+    margin-top: 1em;
+}
