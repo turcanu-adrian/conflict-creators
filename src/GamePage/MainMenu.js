@@ -1,4 +1,5 @@
 const MainMenu = (props) => {
+    
     return (<>
         <div className='centeredText'>
             <div>Choose gamemode</div>

@@ -1,50 +1,65 @@
 import React, { useEffect, useState, useRef } from "react";
-import {LoadingScreen, JoinPhase, AnswerPhase} from '../Phases.js';
-import { getChat/* , getQuestions */ } from "../helperFunctions.js";
-import { joinFunction } from "./SoloGameLogic.js";
+import { LoadingPhase, JoinPhase, AnswerPhase } from "../Phases/Phases.js";
+import { joinPhaseFunction } from "../Phases/Phases.js";
+import {  getChat, getQuestions } from "../helperFunctions.js";
 
 const SoloGame = () => {
-    const [currentPhase, setPhase] = useState('loading');
-    const [joiners, setJoiners] = useState([]);
+  const [currentPhase, setPhase] = useState('loading');
+  const [timer, setTimer] = useState(0);
 
-    const phases = Object.freeze({
-        loading: {
-            element: <LoadingScreen/>,
-            func: () => {return}
-        },
-        join: {
-            element: <JoinPhase joiners={joiners}/>,
-            func: (tags,message) => {
-                console.log('joiners inside frozen enum are ' + joiners);
-                joinFunction(tags,message,joiners,setJoiners) 
-            }
-        },
-        answers: {
-            element: <AnswerPhase/>
-        }
-    });
+  const joiners=useRef([]);
+  const phaseRef=useRef(currentPhase);
+  const questions=useRef(null);
 
-    const chat = useRef(null);
 
-    useEffect(() => {
-        console.log('IN CONSTRUCTOR');
-        getChat()
-            .then ((response) => {
-                chat.current=response; //INITIALIZE CHAT LISTENER
-            })
-            .then (() =>{
-                chat.current.on('message', (channel, tags, message, self) => {
-                    console.log(message);
-                    if (self)
-                        return;
-                    phases['join'].func(tags,message);
-                });
-                setPhase('join');
-            })
-    }, []);
+  const updatePhase = (newPhase) => {
+    phaseRef.current = newPhase;
+    setPhase(phaseRef.current);
+  }
 
-    return (phases[currentPhase].element)
+  const phaseElement = Object.freeze({
+      loading: <LoadingPhase/>,
+      join: <JoinPhase updatePhase={updatePhase} joiners={joiners.current}/>,
+      answer:<AnswerPhase/>
+  });
+
+  const phaseFunction = Object.freeze({
+      join: (tags, message) => {joinPhaseFunction(tags, message, joiners.current)}
+  });
+
+  useEffect(() => {
+    let chat, timerID;
+    getChat()
+      .then((response) => {
+        chat=response; //INITIALIZE CHAT LISTENER
+      })
+      .then(() => {
+        getQuestions()
+          .then((response) => {
+            questions.current=response; //INITIALIZE QUESTIONS
+          })
+          .then(() => {
+            updatePhase('join'); //CHANGE PHASE TO JOIN
+          })
+          .then (() => {
+            chat.on('message', (channel, tags, message, self) => {
+              if (self)
+                return;
+              phaseFunction[phaseRef.current](tags,message); //CALL FUNCTION OF RESPECTIVE PHASE ON EACH MESSAGE
+            });
+          })
+        });
+
+      timerID=setInterval(()=>{console.log('tick'); setTimer(timer=> timer+1)}, 1000); //RE-RENDER TO UPDATE SHOWN DATA
+      return function cleanup() //CLEANUP FUNCTION WHEN COMPONENT UNMOUNTS
+      {
+        clearInterval(timerID);
+        chat.disconnect();
+      }
+  }, [])
+
+  return (phaseElement[phaseRef.current]);
+
 }
 
-
-export {SoloGame}
+export { SoloGame };
