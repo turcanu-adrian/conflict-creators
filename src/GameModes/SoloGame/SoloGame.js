@@ -11,7 +11,6 @@ const SoloGame = () => {
   const phaseRef=useRef(currentPhase);
   const questions=useRef(null);
 
-
   const updatePhase = (newPhase) => {
     phaseRef.current = newPhase;
     setPhase(phaseRef.current);
@@ -50,7 +49,7 @@ const SoloGame = () => {
           })
         });
 
-      timerID=setInterval(()=>{console.log('tick'); setTimer(timer=> timer+1)}, 1000); //RE-RENDER TO UPDATE SHOWN DATA
+      timerID=setInterval(()=>{setTimer(timer => 1-timer)}, 100); //RE-RENDER TO UPDATE SHOWN DATA
       return function cleanup() //CLEANUP FUNCTION WHEN COMPONENT UNMOUNTS
       {
         clearInterval(timerID);

@@ -1,7 +1,7 @@
 const LoginPage = () =>
 {
-    let accessToken = new URLSearchParams(window.location.hash.slice(1)).get('access_token'); //EXTRACT ACCESS TOKEN FROM LINK
-    let twitchLogo = new Image().src=process.env.REACT_APP_TWITCH_LOGO;
+    const accessToken = new URLSearchParams(window.location.hash.slice(1)).get('access_token'); //EXTRACT ACCESS TOKEN FROM LINK
+    const twitchLogo = new Image().src=process.env.REACT_APP_TWITCH_LOGO;
 
     if (accessToken) //IF LINK CONTAINS ACCESS TOKEN
         getProfileData(accessToken);

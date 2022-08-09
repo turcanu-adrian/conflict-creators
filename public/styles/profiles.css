@@ -1,0 +1,20 @@
+/* STREAMER PROFILE */
+.streamerProfile {
+    color: white;
+    position: absolute;
+    left: 1vw;
+    font-size: 30px;
+    top: 30vh;
+    text-align: center;
+    width: 200px;
+}
+
+.streamerProfile img{
+    width: 100%;
+    outline: 5px solid white;
+}
+
+.streamerProfile div:nth-child(1){
+    margin-bottom: 10px;
+    border-bottom: 2px solid white;
+}
