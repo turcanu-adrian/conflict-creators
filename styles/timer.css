@@ -1,0 +1,51 @@
+@keyframes textProgress {
+    50% {
+        fill: yellow;
+    }
+    100% {
+        fill: red;
+    }
+}
+
+@keyframes circleProgress {
+    50% {
+        stroke: yellow;
+    }
+    100% {
+        stroke-dashoffset: 360;
+        stroke: red;
+    }
+}
+
+svg {
+    overflow: visible;
+    width: 114px;
+    height: 114px;
+}
+
+#timer60 {
+    display: block;
+    width: 114px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#timer60 circle{
+    stroke-dasharray: 360;
+    stroke-dashoffset: 35;
+    stroke: lightgreen;
+    animation: circleProgress 60s linear forwards;
+    fill: none;
+    stroke-width: 10px;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+#timer60 text {
+    fill: lightgreen;
+    font-size: 0.7em;
+    animation: textProgress 60s linear forwards;
+}
