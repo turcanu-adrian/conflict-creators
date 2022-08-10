@@ -1,6 +1,6 @@
 import { LoadingPhase } from "./LoadingPhase";
-import { AnswerPhase } from "./AnswerPhase";
+import { AnswerPhase, answerPhaseFunction } from "./AnswerPhase";
 import { JoinPhase, joinPhaseFunction } from "./JoinPhase";
 
 export {LoadingPhase, JoinPhase, AnswerPhase}
-export {joinPhaseFunction}
+export {joinPhaseFunction, answerPhaseFunction}

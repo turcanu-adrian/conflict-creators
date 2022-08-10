@@ -1,21 +1,3 @@
-@keyframes textProgress {
-    50% {
-        fill: yellow;
-    }
-    100% {
-        fill: red;
-    }
-}
-
-@keyframes circleProgress {
-    50% {
-        stroke: yellow;
-    }
-    100% {
-        stroke-dashoffset: 360;
-        stroke: red;
-    }
-}
 
 svg {
     overflow: visible;
@@ -23,7 +5,7 @@ svg {
     height: 114px;
 }
 
-#timer60 {
+#timer {
     display: block;
     width: 114px;
     position: relative;
@@ -32,11 +14,10 @@ svg {
     text-align: center;
 }
 
-#timer60 circle{
+#timer circle{
     stroke-dasharray: 360;
     stroke-dashoffset: 35;
     stroke: lightgreen;
-    animation: circleProgress 60s linear forwards;
     fill: none;
     stroke-width: 10px;
     stroke-linecap: round;
@@ -44,8 +25,10 @@ svg {
     transform-origin: 50% 50%;
 }
 
-#timer60 text {
-    fill: lightgreen;
+#timer text{
     font-size: 0.7em;
-    animation: textProgress 60s linear forwards;
+}
+
+#timer text:nth-child(2){
+    font-size: 2em;
 }

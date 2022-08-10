@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useEffect } from "react";
 import {Timer} from "../../GamePage/Timer"
 
 function joinPhaseFunction(tags, message, joiners){
@@ -17,19 +15,10 @@ function joinPhaseFunction(tags, message, joiners){
 const JoinPhase = (props) => {
     const parasocialIcon = new Image().src=process.env.REACT_APP_PARASOCIAL_ICON; //PRELOAD PARASOCIAL ICON
     
-    useEffect(()=>{
-        const timer = setTimeout(() =>{
-            console.log('TIME RAN OUT, SWITCHING PHASE');
-            props.updatePhase('answer');
-        }, 60000); //SWITCH TO NEXT PHASE (ANSWER PHASE) AFTER 60 SECONDS
-
-        return () => 
-        {
-            clearTimeout(timer);
-        }
-    }, [])
-
-    function skipTimer(){
+    function timerFinish(){
+        const selectedJoiner = props.joiners[Math.floor(Math.random()*props.joiners.length)];
+        props.setChatPlayer(selectedJoiner); //SELECT CHAT PLAYER
+        props.setCurrentQuestion();
         props.updatePhase('answer');
     }
 
@@ -45,7 +34,7 @@ const JoinPhase = (props) => {
     )
 
     return (<>
-            <Timer onClick={skipTimer} timerStart={60}/>
+            <Timer timerFinish={timerFinish} timerStart={1}/>
             <div className="centeredText">Type !join to join</div>
             <div className="centeredText">Players joined so far: {props.joiners.length}</div>
             <div id='joinersContainer'>

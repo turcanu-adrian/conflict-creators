@@ -1,30 +1,51 @@
+// eslint-disable-next-line
 import HackTimer from "hacktimer";
 import React, { useEffect, useState, useRef } from "react";
 import { LoadingPhase, JoinPhase, AnswerPhase } from "../Phases/Phases.js";
-import { joinPhaseFunction } from "../Phases/Phases.js";
+import { joinPhaseFunction, answerPhaseFunction } from "../Phases/Phases.js";
 import {  getChat, getQuestions } from "../helperFunctions.js";
 
 const SoloGame = () => {
   const [currentPhase, setPhase] = useState('loading');
+  // eslint-disable-next-line
   const [timer, setTimer] = useState(0);
 
-  const joiners=useRef([]);
-  const phaseRef=useRef(currentPhase);
+  const chatSubmitters=useRef([]);
   const questions=useRef(null);
+  const phaseRef=useRef(currentPhase);
+  const chatPlayer=useRef(null);
+  const currentQuestion=useRef(null);
+  const chatAnswers=useRef({})
 
-  const updatePhase = (newPhase) => {
+  function updatePhase(newPhase){
     phaseRef.current = newPhase;
     setPhase(phaseRef.current);
   }
 
+  function setChatPlayer(joiner){
+    chatPlayer.current=joiner;
+  }
+  
+  function setCurrentQuestion(){
+    currentQuestion.current=questions.current[Math.floor(Math.random()*questions.current.length)]; //GENERATE RANDOM QUESTION
+  }
+
+  function setAnswers(x){
+    chatAnswers.current=x;
+    console.log(chatAnswers.current);
+  }
+
+
+
   const phaseElement = Object.freeze({
       loading: <LoadingPhase/>,
-      join: <JoinPhase updatePhase={updatePhase} joiners={joiners.current}/>,
-      answer:<AnswerPhase/>
+      join: <JoinPhase updatePhase={updatePhase} joiners={chatSubmitters.current} setChatPlayer={setChatPlayer} setCurrentQuestion={setCurrentQuestion}/>,
+      answer:<AnswerPhase updatePhase={updatePhase} question={currentQuestion.current} answers={chatAnswers.current} setAnswers={setAnswers} chatPlayer={chatPlayer.current}/>
   });
 
   const phaseFunction = Object.freeze({
-      join: (tags, message) => {joinPhaseFunction(tags, message, joiners.current)}
+      join: (tags, message) => {joinPhaseFunction(tags, message, chatSubmitters.current)},
+      answer: (tags, message) => {answerPhaseFunction(tags,message, chatSubmitters.current, chatAnswers.current)}
   });
 
   useEffect(() => {
@@ -56,6 +77,7 @@ const SoloGame = () => {
         clearInterval(timerID);
         chat.disconnect();
       }
+      // eslint-disable-next-line
   }, [])
 
   return (phaseElement[phaseRef.current]);
