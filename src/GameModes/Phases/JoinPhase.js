@@ -1,4 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import {Timer} from "../../GamePage/Timer"
 
 function joinPhaseFunction(tags, message, joiners){
     if (message.startsWith('!join') && joiners.find(element => element.name===tags['display-name'])===undefined) //CHECK IF MESSAGE STARTS WITH !join AND CHATTER DIDN'T ALREADY JOIN
@@ -14,18 +16,22 @@ function joinPhaseFunction(tags, message, joiners){
 
 const JoinPhase = (props) => {
     const parasocialIcon = new Image().src=process.env.REACT_APP_PARASOCIAL_ICON; //PRELOAD PARASOCIAL ICON
-
+    
     useEffect(()=>{
         const timer = setTimeout(() =>{
             console.log('TIME RAN OUT, SWITCHING PHASE');
             props.updatePhase('answer');
-        }, 90000); //SWITCH TO NEXT PHASE (ANSWER PHASE) AFTER 90 SECONDS
+        }, 60000); //SWITCH TO NEXT PHASE (ANSWER PHASE) AFTER 60 SECONDS
 
         return () => 
         {
             clearTimeout(timer);
         }
     }, [])
+
+    function skipTimer(){
+        props.updatePhase('answer');
+    }
 
     const joiners = props.joiners.slice(-12).map((joiner, index) =>  //CREATE ARRAY CONTAINING ELEMENTS THAT REPRESENT THE LAST 10 JOINERS IN THE SIMULATED CHAT VISUALS
         {
@@ -39,7 +45,7 @@ const JoinPhase = (props) => {
     )
 
     return (<>
-            <div className="centeredText">TIMER: {props.timer}</div>
+            <Timer onClick={skipTimer} timerStart={60}/>
             <div className="centeredText">Type !join to join</div>
             <div className="centeredText">Players joined so far: {props.joiners.length}</div>
             <div id='joinersContainer'>
