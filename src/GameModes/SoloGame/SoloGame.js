@@ -1,8 +1,8 @@
 // eslint-disable-next-line
 import HackTimer from "hacktimer";
 import React, { useEffect, useState, useRef } from "react";
-import { LoadingPhase, JoinPhase, AnswerPhase } from "../Phases/Phases.js";
-import { joinPhaseFunction, answerPhaseFunction } from "../Phases/Phases.js";
+import { LoadingPhase, JoinPhase, ChatAnswerPhase, FaceOffPhase } from "../Phases/Phases.js";
+import { joinPhaseFunction, chatAnswerPhaseFunction, faceOffPhaseFunction } from "../Phases/Phases.js";
 import {  getChat, getQuestions } from "../helperFunctions.js";
 
 const SoloGame = () => {
@@ -13,13 +13,33 @@ const SoloGame = () => {
   const chatSubmitters=useRef([]);
   const questions=useRef(null);
   const phaseRef=useRef(currentPhase);
-  const chatPlayer=useRef(null);
   const currentQuestion=useRef(null);
-  const chatAnswers=useRef({})
+  const chatAnswers=useRef({});
+  const playerStats=useRef({
+    streamer : {
+      answers: [],
+      roundPoints: 0,
+      totalPoints: 0,
+      strikes: 0
+    },
+    chatPlayer: {
+      answers: [],
+      roundPoints: 0,
+      totalPoints: 0,
+      strikes: 0
+    }
+  });
+
+  const currentPlayer=useRef(null);
+  const chatPlayer=useRef();
 
   function updatePhase(newPhase){
     phaseRef.current = newPhase;
     setPhase(phaseRef.current);
+  }
+
+  function setCurrentPlayer(player){
+      currentPlayer.current=player;
   }
 
   function setChatPlayer(joiner){
@@ -30,22 +50,43 @@ const SoloGame = () => {
     currentQuestion.current=questions.current[Math.floor(Math.random()*questions.current.length)]; //GENERATE RANDOM QUESTION
   }
 
-  function setAnswers(x){
+  function setChatAnswers(x){
     chatAnswers.current=x;
-    console.log(chatAnswers.current);
   }
 
+  function addAnswer(answer, player){
+    if (![...playerStats.current['streamer']['answers'], ...playerStats.current['chatPlayer']['answers']].includes(answer)) //CHECK IF ANSWER IS ALREADY SUBMITTED
+      {
+        playerStats.current[player]['answers'].push(answer);
+        if (Object.values(chatAnswers.current).findIndex(element => element[0]===answer)>-1){ //CHECK IF ANSWER IS IN TOP 8
+          const answerPoints = Object.values(chatAnswers.current).find(element => element[0]===answer)[1];
+          const chatPlayerStats = playerStats.current['chatPlayer'];
+          const streamerStats = playerStats.current['streamer'];
 
+          playerStats.current[player]['roundPoints'] += answerPoints;
+          if ((player==='streamer') ? (chatPlayerStats['strikes']===process.env.REACT_APP_MAX_STRIKES) : (streamerStats['strikes'] === process.env.REACT_APP_MAX_STRIKES)) //STEALING OTHER PLAYER'S POINTS
+            {
+              playerStats.current[player]['roundPoints']+=(player==='streamer') ? chatPlayerStats['roundPoints'] : streamerStats['roundPoints'];
+              playerStats[(player==='streamer')? 'chatPlayer' : 'streamer']['roundPoints']=0;
+            }
+        }
+          else
+            playerStats.current[player]['strikes']+=(phaseRef.current === 'faceOff') ? 0 : 1;
+
+      }
+  }
 
   const phaseElement = Object.freeze({
       loading: <LoadingPhase/>,
       join: <JoinPhase updatePhase={updatePhase} joiners={chatSubmitters.current} setChatPlayer={setChatPlayer} setCurrentQuestion={setCurrentQuestion}/>,
-      answer:<AnswerPhase updatePhase={updatePhase} question={currentQuestion.current} answers={chatAnswers.current} setAnswers={setAnswers} chatPlayer={chatPlayer.current}/>
+      chatAnswer:<ChatAnswerPhase updatePhase={updatePhase} question={currentQuestion.current} answers={chatAnswers.current} setAnswers={setChatAnswers} chatPlayer={chatPlayer.current}/>,
+      faceOff:<FaceOffPhase updatePhase={updatePhase} currentPlayer={currentPlayer.current} setCurrentPlayer={setCurrentPlayer} addAnswer={addAnswer} question={currentQuestion.current} answers={chatAnswers.current} playerStats={playerStats.current}/>
   });
 
   const phaseFunction = Object.freeze({
       join: (tags, message) => {joinPhaseFunction(tags, message, chatSubmitters.current)},
-      answer: (tags, message) => {answerPhaseFunction(tags,message, chatSubmitters.current, chatAnswers.current)}
+      chatAnswer: (tags, message) => {chatAnswerPhaseFunction(tags, message, chatSubmitters.current, chatAnswers.current)},
+      faceOff: (tags, message) => {faceOffPhaseFunction(tags, message, chatPlayer.current, playerStats.current['chatPlayer']['answers'], addAnswer)}
   });
 
   useEffect(() => {

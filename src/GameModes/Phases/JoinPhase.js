@@ -16,10 +16,11 @@ const JoinPhase = (props) => {
     const parasocialIcon = new Image().src=process.env.REACT_APP_PARASOCIAL_ICON; //PRELOAD PARASOCIAL ICON
     
     function timerFinish(){
-        const selectedJoiner = props.joiners[Math.floor(Math.random()*props.joiners.length)];
+        const selectedJoiner = props.joiners[Math.floor(Math.random()*props.joiners.length)]['name'];
         props.setChatPlayer(selectedJoiner); //SELECT CHAT PLAYER
         props.setCurrentQuestion();
-        props.updatePhase('answer');
+        props.joiners.splice(0, props.joiners.length); //EMPTY THE chatSubmitters ARRAY
+        props.updatePhase('chatAnswer');
     }
 
     const joiners = props.joiners.slice(-12).map((joiner, index) =>  //CREATE ARRAY CONTAINING ELEMENTS THAT REPRESENT THE LAST 10 JOINERS IN THE SIMULATED CHAT VISUALS
@@ -34,7 +35,7 @@ const JoinPhase = (props) => {
     )
 
     return (<>
-            <Timer timerFinish={timerFinish} timerStart={1}/>
+            <Timer timerFinish={timerFinish} timerStart={30}/>
             <div className="centeredText">Type !join to join</div>
             <div className="centeredText">Players joined so far: {props.joiners.length}</div>
             <div id='joinersContainer'>

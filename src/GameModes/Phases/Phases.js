@@ -1,6 +1,7 @@
 import { LoadingPhase } from "./LoadingPhase";
-import { AnswerPhase, answerPhaseFunction } from "./AnswerPhase";
+import { ChatAnswerPhase, chatAnswerPhaseFunction } from "./ChatAnswerPhase";
 import { JoinPhase, joinPhaseFunction } from "./JoinPhase";
+import { FaceOffPhase, faceOffPhaseFunction } from "./FaceOffPhase";
 
-export {LoadingPhase, JoinPhase, AnswerPhase}
-export {joinPhaseFunction, answerPhaseFunction}
+export {LoadingPhase, JoinPhase, ChatAnswerPhase, FaceOffPhase}
+export {joinPhaseFunction, chatAnswerPhaseFunction, faceOffPhaseFunction}
