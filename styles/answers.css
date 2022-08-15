@@ -1,0 +1,23 @@
+#answersContainer {
+    margin-top: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10%;
+    width: 90%;
+}
+
+#answersContainer div{ 
+    padding-left: 0.1em;
+    padding-right: 0.1em; 
+    font-size: 200%;
+    text-align: left;
+    background-color: #3a3a3c;
+    color: white;
+    border-radius: 15px;
+}
+
+#answersContainer span{
+    float: right;
+}

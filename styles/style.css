@@ -3,30 +3,39 @@
 @import url("mainmenu.css");
 @import url("profiles.css");
 @import url("timer.css");
+@import url("buzzer.css");
+@import url("answers.css");
 
 body {
-    min-width: 1100px;
+    min-width: 1300px;
     margin: 0;
     font-family: acumin-pro;
-    background-color: #0e0e10;
+    background-color: #212126;
     padding-top: 2vh;
     padding-bottom: 2vh;
 }
 
 #gameContainer {
-    min-width: 600px;
-    width: calc(100vw - 500px);
-    max-width: 50%;
+    position: relative;
+    width: calc(100vw - 900px);
+    min-width: 500px;
     height: 95vh;
     min-height: 500px;
     margin-left: auto;
     margin-right: auto;
     padding-top: 1vh;
-    background-color: #0e0e10;
+    background-color: #212126;
     border-left: 1vw dotted #9147ff;
     border-right: 1vw dotted #9147ff;
     /* outline: 10px solid white; */
     color: white;
+}
+
+#streamerInput {
+    display: block;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 

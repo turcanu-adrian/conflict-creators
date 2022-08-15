@@ -2,7 +2,7 @@
 .streamerProfile {
     color: white;
     position: absolute;
-    left: 1vw;
+    left: -420px;
     font-size: 30px;
     top: 30vh;
     text-align: center;
@@ -19,12 +19,12 @@
     border-bottom: 2px solid white;
 }
 
-
+/*  width: calc(100vw - 900px); */
 /*PLAYER PROFILE */
 .playerProfile {
     color: white;
     position: absolute;
-    right: 1vw;
+    right: -420px;
     font-size: 30px;
     top: 30vh;
     text-align: center;
