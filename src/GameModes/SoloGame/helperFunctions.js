@@ -32,6 +32,7 @@ function initializeVars(){
     }
 
     let vars = {
+        currentRound: 1,
         chatSubmitters: [],
         questions: [],
         phaseRef: 'loading',

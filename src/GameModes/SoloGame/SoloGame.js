@@ -21,7 +21,7 @@ const SoloGame = () => {
     const otherPlayer = (player === 'chatPlayer') ? 'streamerPlayer' : 'chatPlayer'
     const answerAlreadySubmitted = [...gameVars.current['playerStats']['streamerPlayer']['answers'], ...gameVars.current['playerStats']['chatPlayer']['answers']].includes(answer);
     const playerAnswers = gameVars.current['playerStats'][player]['answers'];
-    const answerPosition = Object.values(gameVars.current['chatAnswers']).find(element => element[0]===answer); //CHECK IF ANSWER IS IN TOP 8
+    const answerPosition = gameVars.current['chatAnswers'].find(element => element[0]===answer); //CHECK IF ANSWER IS IN TOP 8
     if (!answerAlreadySubmitted)
       {
         playerAnswers.push(answer);
