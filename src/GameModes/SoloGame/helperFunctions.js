@@ -23,4 +23,29 @@ function getChat(){ //RETURNS AN INSTANCE OF THE TMI.JS CHAT CLIENT
     })
 }
 
-export {getQuestions, getChat}
+function initializeVars(){
+    function PlayerStats(){
+        this.answers = [];
+        this.roundPoints = 0;
+        this.totalPoints = 0;
+        this.strikes = 0;
+    }
+
+    let vars = {
+        chatSubmitters: [],
+        questions: [],
+        phaseRef: 'loading',
+        currentQuestion: null,
+        chatAnswers: [],
+        playerStats: {
+            streamerPlayer: new PlayerStats(),
+            chatPlayer: new PlayerStats()
+        },
+        currentPlayer: null,
+        chatPlayer: null
+    };
+
+    return vars;
+}
+
+export {getQuestions, getChat, initializeVars}

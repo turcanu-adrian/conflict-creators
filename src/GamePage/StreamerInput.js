@@ -14,7 +14,7 @@ const StreamerInput = (props) => {
             let answer = userInput;
             setUserInput('');
             setDisabled((props.currentPlayer === null ? true : false));
-            props.addAnswer(answer.split(" ")[0].toUpperCase(), 'streamer');
+            props.addAnswer(answer.split(" ")[0].toUpperCase(), 'streamerPlayer');
         }
     }
     

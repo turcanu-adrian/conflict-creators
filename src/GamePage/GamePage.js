@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { StreamerProfile } from "./StreamerProfile";
 import { MainMenu } from "./MainMenu";
 import { SoloGame } from "../GameModes/SoloGame/SoloGame.js";
+import {StreamerProfile} from "./StreamerProfile.js";
 
 const GamePage = (props) =>
 {

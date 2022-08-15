@@ -18,3 +18,25 @@
     margin-bottom: 10px;
     border-bottom: 2px solid white;
 }
+
+
+/*PLAYER PROFILE */
+.playerProfile {
+    color: white;
+    position: absolute;
+    right: 1vw;
+    font-size: 30px;
+    top: 30vh;
+    text-align: center;
+    width: 200px;
+}
+
+.playerProfile img{
+    width: 100%;
+    outline: 5px solid white;
+}
+
+.playerProfile div:nth-child(1){
+    margin-bottom: 10px;
+    border-bottom: 2px solid white;
+}
