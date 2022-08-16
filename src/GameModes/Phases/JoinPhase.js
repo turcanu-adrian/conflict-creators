@@ -16,11 +16,14 @@ const JoinPhase = (props) => {
     const parasocialIcon = new Image().src=process.env.REACT_APP_PARASOCIAL_ICON; //PRELOAD PARASOCIAL ICON
     
     function timerFinish(){
-        const selectedJoiner = props.gameVars['chatSubmitters'][Math.floor(Math.random()*props.gameVars['chatSubmitters'].length)]['name'];
+        if (!props.gameVars['chatSubmitters'].length)
+            alert('No one joined... SAD! \n Refresh the page to try again or smth')
+        else
+       { const selectedJoiner = props.gameVars['chatSubmitters'][Math.floor(Math.random()*props.gameVars['chatSubmitters'].length)]['name'];
         props.gameVars['chatPlayer']=selectedJoiner; //SELECT CHAT PLAYER
         props.gameVars['currentQuestion']=props.gameVars['questions'][Math.floor(Math.random()*props.gameVars['questions'].length)]; //SELECT RANDOM QUESTION
         props.gameVars['chatSubmitters'].splice(0, props.gameVars['chatSubmitters'].length); //EMPTY THE chatSubmitters ARRAY
-        props.updatePhase('chatAnswer');
+        props.updatePhase('chatAnswer');}
     }
 
     const joiners = props.gameVars['chatSubmitters'].slice(-12).map((joiner, index) =>  //CREATE ARRAY CONTAINING ELEMENTS THAT REPRESENT THE LAST 10 JOINERS IN THE SIMULATED CHAT VISUALS
@@ -35,7 +38,7 @@ const JoinPhase = (props) => {
     )
 
     return (<>
-            <Timer timerFinish={timerFinish} timerStart={10}/>
+            <Timer timerFinish={timerFinish} timerStart={30}/>
             <div className="centeredText">Type !join to join</div>
             <div className="centeredText">Players joined so far: {props.gameVars['chatSubmitters'].length}</div>
             <div id='joinersContainer'>

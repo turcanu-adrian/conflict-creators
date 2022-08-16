@@ -1,0 +1,14 @@
+#chattingLeft {
+    width: 200px;
+    position: absolute;
+    left: -400px;
+    top: calc(30vh + 300px);
+}
+
+#chattingRight {
+    transform: scaleX(-1);
+    width: 200px;
+    position: absolute;
+    right: -400px;
+    top: calc(30vh + 300px);
+}

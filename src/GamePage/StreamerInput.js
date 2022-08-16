@@ -11,19 +11,29 @@ const StreamerInput = (props) => {
     function onKeyDown(e) {
         if (e.keyCode === 13 && userInput !== null)
         {
-            let answer = userInput;
+            let answer = userInput.toUpperCase().split(' ')[0];
             setUserInput('');
-            setDisabled((props.currentPlayer === null ? true : false));
-            props.addAnswer(answer.split(" ")[0].toUpperCase(), 'streamerPlayer');
+            setDisabled((props.gameVars['currentPlayer'] === null ? true : false));
+            
+            if (props.gameVars['phaseRef']==='faceOff' && props.gameVars['playerStats']['chatPlayer']['faceOffAnswer'] !== answer)
+               { 
+                props.gameVars['playerStats']['streamerPlayer']['faceOffAnswer'] = answer;
+                props.gameVars['playerAnswers'].push(answer);
+            }
+            else
+                props.addAnswer(answer,  'streamerPlayer');
         }
     }
     
     useEffect(() => {
-        if (props.currentPlayer==='chatPlayer')
+        if (props.gameVars['currentPlayer']==='chatPlayer')
             setDisabled(true);
-    }, [props.currentPlayer]);
+        else
+            setDisabled(false);
+            // eslint-disable-next-line
+    }, [props.gameVars['currentPlayer']]);
 
-    return (<input value={userInput} disabled={disabled} onChange={onChange} onKeyDown={onKeyDown} type="text" autoComplete="off" id="streamerInput"></input>)
+    return (<input value={userInput} disabled={disabled} onChange={onChange} onKeyDown={onKeyDown} type="text" autoComplete="off" placeholder="Streamer answer here" id="streamerInput"></input>)
 }
 
 export {StreamerInput}

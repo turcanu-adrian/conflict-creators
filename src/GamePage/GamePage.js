@@ -9,7 +9,7 @@ const GamePage = (props) =>
 
     const states = Object.freeze({
         mainMenu: <MainMenu changeState={setGameState}/>,
-        soloGame: <SoloGame/>
+        soloGame: <SoloGame changeState={setGameState}/>
     })
 
     return (<>

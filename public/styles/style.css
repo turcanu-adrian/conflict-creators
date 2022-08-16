@@ -5,6 +5,8 @@
 @import url("timer.css");
 @import url("buzzer.css");
 @import url("answers.css");
+@import url("playerStats.css");
+@import url("chatting.css");
 
 body {
     min-width: 1300px;
@@ -36,6 +38,21 @@ body {
     width: 50%;
     margin-left: auto;
     margin-right: auto;
+    font-size: 200%;
+}
+
+#streamerInput:placeholder-shown {
+    background-color: white;
+}
+
+#chatExample {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#chatExample img{
+    width: 100%;
 }
 
 

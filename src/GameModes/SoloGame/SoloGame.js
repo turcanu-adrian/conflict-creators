@@ -1,11 +1,11 @@
 // eslint-disable-next-line
 import HackTimer from "hacktimer";
 import React, { useEffect, useState, useRef } from "react";
-import { LoadingPhase, JoinPhase, ChatAnswerPhase, FaceOffPhase } from "../Phases/Phases.js";
-import { joinPhaseFunction, chatAnswerPhaseFunction, faceOffPhaseFunction } from "../Phases/Phases.js";
+import { LoadingPhase, JoinPhase, ChatAnswerPhase, FaceOffPhase, PlayerAnswerPhase, RoundEndPhase, GameEndPhase } from "../Phases/Phases.js";
+import { joinPhaseFunction, chatAnswerPhaseFunction, faceOffPhaseFunction, playerAnswerPhaseFunction } from "../Phases/Phases.js";
 import {  getChat, getQuestions, initializeVars } from "./helperFunctions.js";
 
-const SoloGame = () => {
+const SoloGame = (props) => {
   // eslint-disable-next-line
   const [currentPhase, setPhase] = useState('loading');
   // eslint-disable-next-line
@@ -17,41 +17,23 @@ const SoloGame = () => {
     setPhase(gameVars.current['phaseRef']);
   }
 
-  function addAnswer(answer, player){
-    const otherPlayer = (player === 'chatPlayer') ? 'streamerPlayer' : 'chatPlayer'
-    const answerAlreadySubmitted = [...gameVars.current['playerStats']['streamerPlayer']['answers'], ...gameVars.current['playerStats']['chatPlayer']['answers']].includes(answer);
-    const playerAnswers = gameVars.current['playerStats'][player]['answers'];
-    const answerPosition = gameVars.current['chatAnswers'].find(element => element[0]===answer); //CHECK IF ANSWER IS IN TOP 8
-    if (!answerAlreadySubmitted)
-      {
-        playerAnswers.push(answer);
-        if (answerPosition) //IF ANSWER IS IN TOP 8
-        {
-          const answerPoints = answerPosition[1];
-          gameVars.current['playerStats'][player]['roundPoints'] += answerPoints;
-
-          if (gameVars.current['playerStats'][otherPlayer]['strikes']===process.env.REACT_APP_MAX_STRIKES)
-          {
-            gameVars.current['playerStats'][player]['roundPoints'] += gameVars.current['playerStats'][otherPlayer]['roundPoints']; //STEAL OPPONENT POINTS
-            gameVars.current['playerStats'][otherPlayer]['roundPoints'] = 0;
-          }
-        }
-        else
-          gameVars.current['playerStats'][player]['strikes'] += (gameVars.current['phaseRef'] === 'faceOff') ? 0 : 1;
-      }
-  }
-
   const phaseElement = Object.freeze({
       loading: <LoadingPhase/>,
       join: <JoinPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
       chatAnswer:<ChatAnswerPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
-      faceOff:<FaceOffPhase updatePhase={updatePhase} addAnswer={addAnswer} gameVars={gameVars.current}/>
+      faceOff:<FaceOffPhase updatePhase={updatePhase} addAnswer={addAnswer} gameVars={gameVars.current}/>,
+      playerAnswer: <PlayerAnswerPhase updatePhase={updatePhase} addAnswer={addAnswer} gameVars={gameVars.current}/>,
+      roundEnd: <RoundEndPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
+      gameEnd: <GameEndPhase gameVars={gameVars.current} changeState={props.changeState}/>
   });
 
   const phaseFunction = Object.freeze({
       join: (tags, message) => {joinPhaseFunction(tags, message, gameVars.current['chatSubmitters'])},
       chatAnswer: (tags, message) => {chatAnswerPhaseFunction(tags, message, gameVars.current)},
-      faceOff: (tags, message) => {faceOffPhaseFunction(tags, message, gameVars.current, addAnswer)}
+      faceOff: (tags, message) => {faceOffPhaseFunction(tags, message, gameVars.current, addAnswer)},
+      playerAnswer: (tags, message) => {playerAnswerPhaseFunction(tags, message, gameVars.current, addAnswer)},
+      roundEnd: () => {return;},
+      gameEnd: () => {return;}
   });
 
   useEffect(() => {
@@ -87,6 +69,30 @@ const SoloGame = () => {
       // eslint-disable-next-line
   }, [])
 
+  function addAnswer(answer, player){
+    const otherPlayer = (player === 'chatPlayer') ? 'streamerPlayer' : 'chatPlayer';
+    const submittedAnswers = gameVars.current['playerAnswers'];
+    const answerPosition = gameVars.current['chatAnswers'].find(element => element[0]===answer);
+
+    if (!submittedAnswers.includes(answer))
+      {
+        submittedAnswers.push(answer);
+        gameVars.current['playerStats'][player]['strikes']+=(answerPosition ? 0 : 1);
+        if (gameVars.current['playerStats'][otherPlayer]['strikes']===parseInt(process.env.REACT_APP_MAX_STRIKES))
+        {
+          gameVars.current['currentPlayer'] = answerPosition ? player : otherPlayer;
+          gameVars.current['chatAnswers'].forEach(answer => {
+            if (gameVars.current['playerAnswers'].includes(answer[0]))
+              gameVars.current['playerStats'][gameVars.current['currentPlayer']]['roundPoints']+=answer[1];
+          }); 
+          updatePhase('roundEnd');
+          return;
+        }
+      };
+      
+      gameVars.current['currentPlayer'] = (gameVars.current['playerStats'][player]['strikes']===parseInt(process.env.REACT_APP_MAX_STRIKES) ? otherPlayer : player);
+    
+  }
   return (phaseElement[gameVars.current['phaseRef']]);
 
 }
