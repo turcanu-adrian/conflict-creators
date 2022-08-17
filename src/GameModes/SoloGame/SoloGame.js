@@ -46,7 +46,7 @@ const SoloGame = (props) => {
         getQuestions()
           .then((response) => {
             const questions = [];
-            response.forEach(element => questions.push(element.replace('streamername', 'xqc')));
+            response.forEach(element => questions.push(element.replace('streamername', sessionStorage['display_name'])));
             gameVars.current['questions']=questions; //INITIALIZE QUESTIONS
           })
           .then(() => {
