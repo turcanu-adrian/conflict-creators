@@ -4,6 +4,7 @@ import {Answers} from "../../GamePage/Answers.js";
 import {PlayerProfile} from "../../GamePage/PlayerProfile";
 import {PlayerStats} from "../../GamePage/PlayerStats";
 import { useState } from "react";
+import { useEffect } from "react";
 
 function playerAnswerPhaseFunction(tags, message, gameVars, addAnswer){
     const validMessage=message.startsWith('!answer') && tags['display-name'] === gameVars['chatPlayer']
@@ -19,14 +20,17 @@ const PlayerAnswerPhase = (props) => {
             revealedAnswers++;
     }); 
 
-    if (revealedAnswers === props.gameVars['chatAnswers'].length){
+    useEffect(() => {
+        if (revealedAnswers === props.gameVars['chatAnswers'].length){
             props.gameVars['chatAnswers'].forEach(answer => {
                 if (props.gameVars['playerAnswers'].includes(answer[0]))
                     props.gameVars['playerStats'][props.gameVars['currentPlayer']]['roundPoints']+=answer[1];
             }); 
+            props.gameVars['playerStats'][props.gameVars['currentPlayer']]['totalPoints'] += props.gameVars['playerStats'][props.gameVars['currentPlayer']]['roundPoints'];
             props.updatePhase('roundEnd');
-}
-    else if (lastAnswer !== props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1])
+    }}, [revealedAnswers])
+
+    if (lastAnswer !== props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1])
         setLastAnswer(props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1])
 
     function timerFinish(){

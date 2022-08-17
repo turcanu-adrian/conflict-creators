@@ -45,7 +45,9 @@ const SoloGame = (props) => {
       .then(() => {
         getQuestions()
           .then((response) => {
-            gameVars.current['questions']=response; //INITIALIZE QUESTIONS
+            const questions = [];
+            response.forEach(element => questions.push(element.replace('streamername', 'xqc')));
+            gameVars.current['questions']=questions; //INITIALIZE QUESTIONS
           })
           .then(() => {
             updatePhase('join'); //CHANGE PHASE TO JOIN
