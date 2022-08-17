@@ -1,11 +1,18 @@
-#leftBuzzer {
+#leftBuzzer, #rightBuzzer {
+    width: 15%;
     position: absolute;
-    left: -200px;
-    top: calc(30vh + 50px);
+    top: 30vh;
+    margin-top: 4%;
+}
+
+#leftBuzzer img, #rightBuzzer img {
+    width: 100%;
 }
 
 #rightBuzzer {
-    position: absolute;
-    right: -200px;
-    top: calc(30vh + 50px);
+    right: -17%;
+}
+
+#leftBuzzer {
+    left: -17%;
 }

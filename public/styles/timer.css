@@ -1,13 +1,13 @@
 
 svg {
     overflow: visible;
-    width: 114px;
-    height: 114px;
+    width: 10vw;
+    height: 10vw;
 }
 
 #timer {
     display: block;
-    width: 114px;
+    width: 10vw;
     position: relative;
     margin-left: auto;
     margin-right: auto;
@@ -15,20 +15,23 @@ svg {
 }
 
 #timer circle{
-    stroke-dasharray: 360;
-    stroke-dashoffset: 35;
+    cx: 5vw;
+    cy: 5vw;
+    r: 4vw;
+    stroke-dasharray: 25vw;
+    stroke-dashoffset: 5vw;
     stroke: lightgreen;
     fill: none;
-    stroke-width: 10px;
+    stroke-width: 1vw;
     stroke-linecap: round;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
 }
 
 #timer text{
-    font-size: 0.7em;
+    font-size: 1vw;
 }
 
 #timer text:nth-child(2){
-    font-size: 2em;
+    font-size: 3vw;
 }

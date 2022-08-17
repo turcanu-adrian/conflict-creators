@@ -36,7 +36,7 @@ const TimerText = (props) => {
 
     return (<svg ref={ref}>
         <text x='50%' textAnchor='middle'>CLICK ON TIMER TO SKIP IT</text>
-        <text x='50%' y='59%' dominantBaseline="middle"  textAnchor="middle">{counter}</text>
+        <text x='50%' y='53%' dominantBaseline="middle"  textAnchor="middle">{counter}</text>
     </svg>)
 }
 
@@ -45,9 +45,9 @@ const TimerCircle = (props) => {
 
     const { ref } = useWebAnimations({
         keyframes:[
-            { stroke: 'lightgreen', strokeDashoffset: '35'},
+            { stroke: 'lightgreen', strokeDashoffset: '0vw'},
             { stroke: 'yellow'},
-            { stroke: 'red', strokeDashoffset: '360'},
+            { stroke: 'red', strokeDashoffset: '25vw'},
         ],
          animationOptions: {
             duration: props.duration,
@@ -58,7 +58,7 @@ const TimerCircle = (props) => {
     }); //TIMER CIRCLE ANIMATION
 
 
-    return (<circle ref={ref} cx='50' cy='57' r='52'></circle>)
+    return (<circle ref={ref}></circle>)
 
 }
 

@@ -20,9 +20,9 @@ function faceOffPhaseFunction(tags, message, gameVars){
 const FaceOffPhase = (props) => {
 
     function timerFinish(){
-        const streamerAnswerPoints=props.gameVars['chatAnswers'].findIndex(element => element[0]===props.gameVars['playerStats']['streamerPlayer']['faceOffAnswer']);
-        const chatPlayerAnswerPoints=props.gameVars['chatAnswers'].findIndex(element => element[0]===props.gameVars['playerStats']['chatPlayer']['faceOffAnswer']);
-        props.gameVars['currentPlayer']=(streamerAnswerPoints > chatPlayerAnswerPoints ? 'streamerPlayer' : 'chatPlayer');
+        const streamerAnswerPos=props.gameVars['chatAnswers'].findIndex(element => element[0]===props.gameVars['playerStats']['streamerPlayer']['faceOffAnswer']);
+        const chatPlayerAnswerPos=props.gameVars['chatAnswers'].findIndex(element => element[0]===props.gameVars['playerStats']['chatPlayer']['faceOffAnswer']);
+        props.gameVars['currentPlayer']=(streamerAnswerPos > chatPlayerAnswerPos ? 'streamerPlayer' : 'chatPlayer');
         props.updatePhase('playerAnswer');
     }
 
@@ -33,9 +33,10 @@ const FaceOffPhase = (props) => {
         <PlayerProfile chatPlayer={props.gameVars['chatPlayer']}/>
         <Buzzers playerStats={props.gameVars['playerStats']}/>
         <Timer timerFinish={timerFinish} timerStart={20}/>
-        <div className="centeredText">{props.gameVars['currentQuestion']}</div>
+        <div className="centeredText">{props.gameVars['currentQuestion']}<br/>Chat player must answer with !answer (Example: !answer forsen)</div>
         <StreamerInput gameVars={props.gameVars} addAnswer={props.addAnswer}/>
         <Answers gameVars={props.gameVars}/>
+        <div className="centeredText">FaceOff round! Each player must submit one answer to decide who gets to play the question first.</div>
     </>)
 }
 

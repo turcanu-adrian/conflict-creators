@@ -1,13 +1,16 @@
-#leftStats {
+#leftStats, #rightStats {
+    font-size: 1vw;
     position: absolute;
-    left: -200px;
-    top: calc(30vh + 50px);
-    text-align: left;
+    top: 30vh;
+    margin-top: 5%;
 }
 
 #rightStats {
-    position: absolute;
-    right: -200px;
-    top: calc(30vh + 50px);
+    right: -17%;
     text-align: right;
+}
+
+#leftStats {
+    left: -17%;
+    text-align: left;
 }

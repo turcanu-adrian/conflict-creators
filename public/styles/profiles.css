@@ -1,42 +1,26 @@
-/* STREAMER PROFILE */
-.streamerProfile {
+.streamerProfile, .playerProfile {
     color: white;
     position: absolute;
-    left: -420px;
-    font-size: 30px;
+    font-size: 2vw;
     top: 30vh;
     text-align: center;
-    width: 200px;
+    width: 15%;
 }
 
-.streamerProfile img{
+.streamerProfile img, .playerProfile img{
     width: 100%;
     outline: 5px solid white;
 }
 
-.streamerProfile div:nth-child(1){
+.streamerProfile div:nth-child(1), .playerProfile div:nth-child(1){
     margin-bottom: 10px;
     border-bottom: 2px solid white;
 }
 
-/*  width: calc(100vw - 900px); */
-/*PLAYER PROFILE */
 .playerProfile {
-    color: white;
-    position: absolute;
-    right: -420px;
-    font-size: 30px;
-    top: 30vh;
-    text-align: center;
-    width: 200px;
+    right: -33%;
 }
 
-.playerProfile img{
-    width: 100%;
-    outline: 5px solid white;
-}
-
-.playerProfile div:nth-child(1){
-    margin-bottom: 10px;
-    border-bottom: 2px solid white;
+.streamerProfile{
+    left: -33%;
 }

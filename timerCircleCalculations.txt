@@ -1,0 +1,14 @@
+size = 10vw;
+
+strokeWidth=1vw;
+
+center = size/2 = 5vw;
+
+radius = center - strokewidth = 4vw;
+
+progress = 0;
+
+arclength = 2 * pi * radius = 2 * 3.14 * 4vw = 25.12vw
+
+arcOffset = arcLength * ((100-progress)/100)
+	= 25.12 * ((100-0)/100) = 25.12
