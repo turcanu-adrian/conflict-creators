@@ -26,7 +26,7 @@ const JoinPhase = (props) => {
         props.updatePhase('chatAnswer');}
     }
 
-    const joiners = props.gameVars['chatSubmitters'].slice(-12).map((joiner, index) =>  //CREATE ARRAY CONTAINING ELEMENTS THAT REPRESENT THE LAST 10 JOINERS IN THE SIMULATED CHAT VISUALS
+    const joiners = props.gameVars['chatSubmitters'].slice(-12).map((joiner, index) =>  //CREATE ARRAY CONTAINING ELEMENTS THAT REPRESENT THE LAST 12 JOINERS IN THE SIMULATED CHAT VISUALS
         {
             const style={
                 color: joiner.color,
