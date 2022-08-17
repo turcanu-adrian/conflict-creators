@@ -9,7 +9,6 @@
 @import url("chatting.css");
 
 body {
-    min-width: 1300px;
     margin: 0;
     font-family: acumin-pro;
     background-color: #212126;
@@ -19,10 +18,8 @@ body {
 
 #gameContainer {
     position: relative;
-    width: calc(100vw - 900px);
-    min-width: 500px;
+    width: 60%;
     height: 95vh;
-    min-height: 500px;
     margin-left: auto;
     margin-right: auto;
     padding-top: 1vh;
@@ -38,7 +35,7 @@ body {
     width: 50%;
     margin-left: auto;
     margin-right: auto;
-    font-size: 200%;
+    font-size: 2vw;
 }
 
 #streamerInput:placeholder-shown {
@@ -46,13 +43,14 @@ body {
 }
 
 #chatExample {
-    width: 100%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
 
 #chatExample img{
     width: 100%;
+    height: auto;
 }
 
 
