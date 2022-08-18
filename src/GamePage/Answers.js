@@ -12,7 +12,7 @@ const Answers = (props) => {
             if (playerAnswers.includes(answer[0]))
                 return <div className="shownAnswer" style={style} key={index}>{answer[0]} <span>{percentage}% ({answer[1]})</span></div>
             else
-                return <div className="wrongAnswer" key={index}>{index+1}</div>
+                return <div className="hiddenAnswer" key={index}>{index+1}</div>
         })
     else
         answers = props.gameVars['chatAnswers'].map((answer, index) => {

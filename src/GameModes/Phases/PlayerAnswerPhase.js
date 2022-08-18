@@ -26,7 +26,6 @@ const PlayerAnswerPhase = (props) => {
                 if (props.gameVars['playerAnswers'].includes(answer[0]))
                     props.gameVars['playerStats'][props.gameVars['currentPlayer']]['roundPoints']+=answer[1];
             }); 
-            props.gameVars['playerStats'][props.gameVars['currentPlayer']]['totalPoints'] += props.gameVars['playerStats'][props.gameVars['currentPlayer']]['roundPoints'];
             props.updatePhase('roundEnd');
     }}, [revealedAnswers])
 

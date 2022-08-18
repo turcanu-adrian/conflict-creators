@@ -1,7 +1,7 @@
 import {Timer} from "../../GamePage/Timer"
-
+ 
 function joinPhaseFunction(tags, message, joiners){
-    if (message.startsWith('!join') && !joiners.find(element => element.name===tags['display-name'])) //CHECK IF MESSAGE STARTS WITH !join AND CHATTER DIDN'T ALREADY JOIN
+    if (message.startsWith('!join') /* && !joiners.find(element => element.name===tags['display-name']) */) //CHECK IF MESSAGE STARTS WITH !join AND CHATTER DIDN'T ALREADY JOIN
     {
         const messages = process.env.REACT_APP_PARASOCIAL_MESSAGES.replaceAll('streamername', sessionStorage.display_name).split(', ');
         joiners.push({

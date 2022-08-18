@@ -34,9 +34,9 @@ function initializeVars(){
     let vars = {
         currentRound: 1,
         chatSubmitters: [],
-        questions: [],
         phaseRef: 'loading',
         currentQuestion: null,
+        questions: [],
         chatAnswers: [],
         playerStats: {
             streamerPlayer: new PlayerStats(),
@@ -51,12 +51,13 @@ function initializeVars(){
 }
 
 function resetVars(gameVars){
+        console.log('gamevars before reset');
+        console.log(gameVars);
         const newVars = initializeVars();
-        const streamerPoints =  gameVars['playerStats']['chatPlayer']['totalPoints'];
-        const playerPoints =  gameVars['playerStats']['streamerPlayer']['totalPoints'];
+        const streamerPoints =  gameVars['playerStats']['streamerPlayer']['totalPoints'] + gameVars['playerStats']['streamerPlayer']['roundPoints'];
+        const playerPoints =  gameVars['playerStats']['chatPlayer']['roundPoints'] + gameVars['playerStats']['chatPlayer']['roundPoints'];
         gameVars['currentRound']++;
         gameVars['chatSubmitters']=[];
-        gameVars['questions']=[];
         gameVars['currentQuestion']=null;
         gameVars['chatAnswers']=[];
         gameVars['playerStats']=newVars['playerStats'];
@@ -64,6 +65,8 @@ function resetVars(gameVars){
         gameVars['playerStats']['chatPlayer']['totalPoints']=playerPoints;
         gameVars['currentPlayer']=null;
         gameVars['playerAnswers'] = [];
+        console.log('gamevars after reset');
+        console.log(gameVars);
 }
 
 export {getQuestions, getChat, initializeVars, resetVars}

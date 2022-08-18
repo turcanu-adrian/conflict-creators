@@ -9,7 +9,7 @@ function chatAnswerPhaseFunction(tags, message, gameVars){
     }
 
     const name = tags['display-name'];
-    if (getOccurence(gameVars['chatSubmitters'], name)<process.env.REACT_APP_MAX_ANSWERS && message.startsWith('!answer') && message.split(' ')[1])
+    if (/* getOccurence(gameVars['chatSubmitters'], name)<process.env.REACT_APP_MAX_ANSWERS && */ message.startsWith('!answer') && message.split(' ')[1])
     {
         const answer = message.split(' ')[1].toUpperCase();
         gameVars['chatAnswers'][answer] = isNaN( gameVars['chatAnswers'][answer]) ? 1 :  gameVars['chatAnswers'][answer]+1;

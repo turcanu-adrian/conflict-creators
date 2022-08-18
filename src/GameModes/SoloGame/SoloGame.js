@@ -95,6 +95,8 @@ const SoloGame = (props) => {
       gameVars.current['currentPlayer'] = (gameVars.current['playerStats'][player]['strikes']===parseInt(process.env.REACT_APP_MAX_STRIKES) ? otherPlayer : player);
     
   }
+
+  
   return (phaseElement[gameVars.current['phaseRef']]);
 
 }

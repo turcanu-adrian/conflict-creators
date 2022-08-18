@@ -10,11 +10,11 @@ const RoundEndPhase = (props) => {
     const winnerPoints = props.gameVars['currentPlayer'] === 'chatPlayer' ? props.gameVars['playerStats']['chatPlayer']['roundPoints'] : props.gameVars['playerStats']['streamerPlayer']['roundPoints'];
 
     function timerFinish(){
+            resetVars(props.gameVars);
             if (props.gameVars['currentRound']===parseInt(process.env.REACT_APP_MAX_ROUNDS))
                 props.updatePhase('gameEnd');
             else
-                {resetVars(props.gameVars);
-                props.updatePhase('join');}
+                props.updatePhase('join');
         }
 
     return (<>
