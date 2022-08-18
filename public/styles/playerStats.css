@@ -14,3 +14,13 @@
     left: -17%;
     text-align: left;
 }
+
+
+#leftStats span, #rightStats span{
+    animation: strikesAnimation 2s forwards;
+}
+
+@keyframes strikesAnimation {
+    from {font-size: 300%;}
+    to {font-size: 100%;}
+}

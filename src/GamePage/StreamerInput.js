@@ -4,6 +4,8 @@ const StreamerInput = (props) => {
     const [userInput, setUserInput] = useState('');
     const [disabled, setDisabled] = useState(false);
 
+    const placeholderText=(props.gameVars['currentPlayer']==='streamerPlayer' || props.gameVars['currentPlayer']===null) ? "Streamer's turn, type here!" : "Chat player's turn . . .";
+
     function onChange(e){
         setUserInput(e.currentTarget.value);
     }
@@ -33,7 +35,7 @@ const StreamerInput = (props) => {
             // eslint-disable-next-line
     }, [props.gameVars['currentPlayer']]);
 
-    return (<input value={userInput} disabled={disabled} onChange={onChange} onKeyDown={onKeyDown} type="text" autoComplete="off" placeholder="Streamer answer here" id="streamerInput"></input>)
+    return (<input value={userInput} disabled={disabled} onChange={onChange} onKeyDown={onKeyDown} type="text" autoComplete="off" placeholder={placeholderText} id="streamerInput"></input>)
 }
 
 export {StreamerInput}

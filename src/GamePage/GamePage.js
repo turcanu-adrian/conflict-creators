@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MainMenu } from "./MainMenu";
-import { SoloGame } from "../GameModes/SoloGame/SoloGame.js";
+import { ParasocialConfrontation } from "../GameModes/SoloGame/SoloGame.js";
 import {StreamerProfile} from "./StreamerProfile.js";
 
 const GamePage = (props) =>
@@ -9,7 +9,7 @@ const GamePage = (props) =>
 
     const states = Object.freeze({
         mainMenu: <MainMenu changeState={setGameState}/>,
-        soloGame: <SoloGame changeState={setGameState}/>
+        parasocialConfrontation: <ParasocialConfrontation changeState={setGameState}/>
     })
 
     return (<>

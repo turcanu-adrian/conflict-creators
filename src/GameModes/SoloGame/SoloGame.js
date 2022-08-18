@@ -5,7 +5,7 @@ import { LoadingPhase, JoinPhase, ChatAnswerPhase, FaceOffPhase, PlayerAnswerPha
 import { joinPhaseFunction, chatAnswerPhaseFunction, faceOffPhaseFunction, playerAnswerPhaseFunction } from "../Phases/Phases.js";
 import {  getChat, getQuestions, initializeVars } from "./helperFunctions.js";
 
-const SoloGame = (props) => {
+const ParasocialConfrontation = (props) => {
   // eslint-disable-next-line
   const [currentPhase, setPhase] = useState('loading');
   // eslint-disable-next-line
@@ -77,28 +77,30 @@ const SoloGame = (props) => {
     const answerPosition = gameVars.current['chatAnswers'].find(element => element[0]===answer);
 
     if (!submittedAnswers.includes(answer))
-      {
-        submittedAnswers.push(answer);
-        gameVars.current['playerStats'][player]['strikes']+=(answerPosition ? 0 : 1);
-        if (gameVars.current['playerStats'][otherPlayer]['strikes']===parseInt(process.env.REACT_APP_MAX_STRIKES))
         {
-          gameVars.current['currentPlayer'] = answerPosition ? player : otherPlayer;
-          gameVars.current['chatAnswers'].forEach(answer => {
-            if (gameVars.current['playerAnswers'].includes(answer[0]))
-              gameVars.current['playerStats'][gameVars.current['currentPlayer']]['roundPoints']+=answer[1];
-          }); 
-          updatePhase('roundEnd');
-          return;
+          submittedAnswers.push(answer);
+          gameVars.current['playerStats'][player]['strikes'] += (answerPosition ? 0 : 1);
         }
-      };
+    else
+        gameVars.current['playerStats'][player]['strikes']++;
       
-      gameVars.current['currentPlayer'] = (gameVars.current['playerStats'][player]['strikes']===parseInt(process.env.REACT_APP_MAX_STRIKES) ? otherPlayer : player);
-    
+    if (gameVars.current['playerStats'][otherPlayer]['strikes']===parseInt(process.env.REACT_APP_MAX_STRIKES))
+      {
+        gameVars.current['currentPlayer'] = answerPosition ? player : otherPlayer;
+        gameVars.current['chatAnswers'].forEach(answer => {
+          if (gameVars.current['playerAnswers'].includes(answer[0]))
+            gameVars.current['playerStats'][gameVars.current['currentPlayer']]['roundPoints']+=answer[1];
+        }); 
+        updatePhase('roundEnd');
+        return;
+      }
+      
+    gameVars.current['currentPlayer'] = (gameVars.current['playerStats'][player]['strikes']===parseInt(process.env.REACT_APP_MAX_STRIKES) ? otherPlayer : player);
   }
 
-  
+
   return (phaseElement[gameVars.current['phaseRef']]);
 
 }
 
-export { SoloGame };
+export { ParasocialConfrontation };

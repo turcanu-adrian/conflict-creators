@@ -32,7 +32,7 @@ function initializeVars(){
     }
 
     let vars = {
-        currentRound: 1,
+        currentRound: 0,
         chatSubmitters: [],
         phaseRef: 'loading',
         currentQuestion: null,
@@ -54,8 +54,8 @@ function resetVars(gameVars){
         console.log('gamevars before reset');
         console.log(gameVars);
         const newVars = initializeVars();
-        const streamerPoints =  gameVars['playerStats']['streamerPlayer']['totalPoints'] + gameVars['playerStats']['streamerPlayer']['roundPoints'];
-        const playerPoints =  gameVars['playerStats']['chatPlayer']['roundPoints'] + gameVars['playerStats']['chatPlayer']['roundPoints'];
+        const streamerPoints =  gameVars['playerStats']['streamerPlayer']['totalPoints'] + gameVars['playerStats']['streamerPlayer']['roundPoints'] ;
+        const playerPoints =  gameVars['playerStats']['chatPlayer']['totalPoints']+ gameVars['playerStats']['chatPlayer']['roundPoints'];
         gameVars['currentRound']++;
         gameVars['chatSubmitters']=[];
         gameVars['currentQuestion']=null;

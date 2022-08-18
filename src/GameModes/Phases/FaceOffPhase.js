@@ -3,6 +3,7 @@ import { Timer } from "../../GamePage/Timer.js";
 import {Buzzers} from "../../GamePage/Buzzers.js";
 import {Answers} from "../../GamePage/Answers.js";
 import {PlayerProfile} from "../../GamePage/PlayerProfile";
+import {Question} from "../../GamePage/Question";
 
 function faceOffPhaseFunction(tags, message, gameVars){
     const name = tags['display-name'];
@@ -33,10 +34,11 @@ const FaceOffPhase = (props) => {
         <PlayerProfile chatPlayer={props.gameVars['chatPlayer']}/>
         <Buzzers playerStats={props.gameVars['playerStats']}/>
         <Timer timerFinish={timerFinish} timerStart={20}/>
-        <div className="centeredText">{props.gameVars['currentQuestion']}<br/>Chat player must answer with !answer (Example: !answer forsen)</div>
-        <StreamerInput gameVars={props.gameVars} addAnswer={props.addAnswer}/>
+        <div className="centeredText">FaceOff round!</div>
+        <Question question={props.gameVars['currentQuestion']}/>
         <Answers gameVars={props.gameVars}/>
-        <div className="centeredText">FaceOff round! Each player must submit one answer to decide who gets to play the question first.</div>
+        <StreamerInput gameVars={props.gameVars} addAnswer={props.addAnswer}/>
+        <div className="centeredText">Each player must submit one answer to decide who gets to play the question first.</div>
     </>)
 }
 

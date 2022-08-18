@@ -3,8 +3,8 @@ import { Timer } from "../../GamePage/Timer.js";
 import {Answers} from "../../GamePage/Answers.js";
 import {PlayerProfile} from "../../GamePage/PlayerProfile";
 import {PlayerStats} from "../../GamePage/PlayerStats";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import {Question} from "../../GamePage/Question";
 
 function playerAnswerPhaseFunction(tags, message, gameVars, addAnswer){
     const validMessage=message.startsWith('!answer') && tags['display-name'] === gameVars['chatPlayer']
@@ -34,7 +34,7 @@ const PlayerAnswerPhase = (props) => {
 
     function timerFinish(){
         if (props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1] === lastAnswer)
-            props.addAnswer(lastAnswer+'fail', props.gameVars['currentPlayer']);
+            props.addAnswer('failAnswer'+props.gameVars['playerStats'][props.gameVars['currentPlayer']]['strikes'], props.gameVars['currentPlayer']);
         setLastAnswer(props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1])
     }
 
@@ -45,9 +45,9 @@ const PlayerAnswerPhase = (props) => {
         <PlayerProfile chatPlayer={props.gameVars['chatPlayer']}/>
         <PlayerStats playerStats={props.gameVars['playerStats']}/>
         <Timer key={lastAnswer} timerFinish={timerFinish} timerStart={20}/>
-        <div className="centeredText">{props.gameVars['currentQuestion']}<br/>Chat player must answer with !answer (Example: !answer forsen)</div>
-        <StreamerInput gameVars={props.gameVars} addAnswer={props.addAnswer}/>
+        <Question question={props.gameVars['currentQuestion']}/>
         <Answers gameVars={props.gameVars}/>
+        <StreamerInput gameVars={props.gameVars} addAnswer={props.addAnswer}/>
         <div id={chattingPos}><img alt='chatting' src={chattingImg}/></div>
     </>)
 

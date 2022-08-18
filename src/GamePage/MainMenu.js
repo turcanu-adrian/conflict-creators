@@ -5,7 +5,7 @@ const MainMenu = (props) => {
         <div className='centeredText'>
             <img src={siteLogo} width='70%' alt='siteLogo'/>
             <div>Choose gamemode</div>
-            <button onClick={() => props.changeState('soloGame')}>Parasocial Confrontation</button>
+            <button onClick={() => props.changeState('parasocialConfrontation')}>Parasocial Confrontation</button>
         </div>
     </>)
 }

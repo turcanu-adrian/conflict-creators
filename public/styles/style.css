@@ -43,15 +43,61 @@ body {
 }
 
 #chatExample {
-    width: 80%;
+    width: 50%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: -5%;
 }
 
 #chatExample img{
     width: 100%;
     height: auto;
 }
+
+#question {
+    height:3em;
+    width:97%;
+    color: black;
+    text-align: center;
+    font-size: 2vw;
+    margin-left: auto;
+    clear:left;
+}
+
+#question img {
+    float: left;
+    width: 15%;
+}
+
+
+#question > div {
+    background-color:white;
+    margin-left: auto;
+    margin-right:auto;
+    width:66%;
+    height:100%
+}
+
+#question > div:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 2vw solid transparent;
+    border-right: 2vw solid white;
+    border-bottom: 1vw;
+    margin: 1vw 0vw 0px -20vw;
+    outline: white;
+}
+
+#question > div > div {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 100%;
+    text-align: center;
+    widtH: 90%;
+}
+
 
 
 
