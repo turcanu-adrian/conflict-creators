@@ -13,7 +13,7 @@
 }
 
 .streamerProfile div:nth-child(1), .playerProfile div:nth-child(1){
-    margin-bottom: 10px;
+    margin-bottom: 4%;
     border-bottom: 2px solid white;
 }
 
@@ -24,3 +24,25 @@
 .streamerProfile{
     left: -33%;
 }
+
+#lastAnswerLeft, #lastAnswerRight {
+    position:relative;
+    width:200%;
+    word-break:break-word;
+}
+
+#lastAnswerLeft span, #lastAnswerRight span{
+    color: black;
+    background-color: white;
+    border-radius: 10%;
+}
+
+#lastAnswerLeft {
+    text-align:left;
+}
+
+#lastAnswerRight {
+    text-align: right;
+    right:100%;
+}
+
