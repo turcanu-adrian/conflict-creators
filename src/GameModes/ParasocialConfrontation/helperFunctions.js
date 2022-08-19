@@ -25,7 +25,7 @@ function getChat(){ //RETURNS AN INSTANCE OF THE TMI.JS CHAT CLIENT
 
 function initializeVars(){
     function PlayerStats(){
-        this.faceOffAnswer = null;
+        this.lastAnswer = null;
         this.roundPoints = 0;
         this.totalPoints = 0;
         this.strikes = 0;
@@ -51,8 +51,6 @@ function initializeVars(){
 }
 
 function resetVars(gameVars){
-        console.log('gamevars before reset');
-        console.log(gameVars);
         const newVars = initializeVars();
         const streamerPoints =  gameVars['playerStats']['streamerPlayer']['totalPoints'] + gameVars['playerStats']['streamerPlayer']['roundPoints'] ;
         const playerPoints =  gameVars['playerStats']['chatPlayer']['totalPoints']+ gameVars['playerStats']['chatPlayer']['roundPoints'];
@@ -65,8 +63,6 @@ function resetVars(gameVars){
         gameVars['playerStats']['chatPlayer']['totalPoints']=playerPoints;
         gameVars['currentPlayer']=null;
         gameVars['playerAnswers'] = [];
-        console.log('gamevars after reset');
-        console.log(gameVars);
 }
 
 export {getQuestions, getChat, initializeVars, resetVars}

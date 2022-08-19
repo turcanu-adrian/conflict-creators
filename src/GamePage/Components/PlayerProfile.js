@@ -5,6 +5,7 @@ const PlayerProfile = (props) => {
         <div className='playerProfile'>
             <div>{props.chatPlayer}</div>
             <div><img src={profilePic} alt='playerPic'/></div>
+            <div id='lastAnswerRight'><span>{props.lastAnswer}</span></div>
         </div>
     </>)
 }

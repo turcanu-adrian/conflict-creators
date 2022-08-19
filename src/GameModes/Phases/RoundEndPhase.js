@@ -1,7 +1,7 @@
 import { Timer } from "../../GamePage/Components/Timer.js";
 import {Answers} from "../../GamePage/Components/Answers.js";
 import {PlayerProfile} from "../../GamePage/Components/PlayerProfile";
-import {resetVars} from "../SoloGame/helperFunctions";
+import {resetVars} from "../ParasocialConfrontation/helperFunctions";
 import { PlayerStats } from "../../GamePage/Components/PlayerStats.js";
 
 

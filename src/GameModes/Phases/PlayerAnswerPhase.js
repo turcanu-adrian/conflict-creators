@@ -33,13 +33,13 @@ const PlayerAnswerPhase = (props) => {
             props.updatePhase('roundEnd');
     }}, [revealedAnswers])
 
-    if (lastAnswer !== props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1])
-        setLastAnswer(props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1])
+    if (lastAnswer !== props.gameVars['playerStats'][props.gameVars['currentPlayer']]['lastAnswer'])
+        setLastAnswer(props.gameVars['playerStats'][props.gameVars['currentPlayer']]['lastAnswer'])
 
     function timerFinish(){
-        if (props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1] === lastAnswer)
-            props.addAnswer('failAnswer'+props.gameVars['playerStats'][props.gameVars['currentPlayer']]['strikes'], props.gameVars['currentPlayer']);
-        setLastAnswer(props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1])
+        if (props.gameVars['playerStats'][props.gameVars['currentPlayer']]['lastAnswer'] === lastAnswer)
+            props.addAnswer('NO ANSWER', props.gameVars['currentPlayer']);
+        setLastAnswer(props.gameVars['playerStats'][props.gameVars['currentPlayer']]['lastAnswer'])
     }
 
     const inputDisabled =  props.gameVars['currentPlayer'] === 'chatPlayer' ? true : false
@@ -49,12 +49,12 @@ const PlayerAnswerPhase = (props) => {
     const chattingPos = (props.gameVars['currentPlayer']==='streamerPlayer' ? 'chattingLeft' : 'chattingRight')
 
     return (<>
-        <PlayerProfile chatPlayer={props.gameVars['chatPlayer']}/>
+        <PlayerProfile chatPlayer={props.gameVars['chatPlayer']} lastAnswer={props.gameVars['playerStats']['chatPlayer']['lastAnswer']}/>
         <PlayerStats playerStats={props.gameVars['playerStats']}/>
         <Timer key={lastAnswer} timerFinish={timerFinish} timerStart={20}/>
         <Question question={props.gameVars['currentQuestion']}/>
         <Answers gameVars={props.gameVars}/>
-        <StreamerInput gameVars={props.gameVars} disabled={inputDisabled} placeholder={inputPlaceholder} onEnter={onEnter} addAnswer={props.addAnswer}/>
+        <StreamerInput gameVars={props.gameVars} disabled={inputDisabled} placeholder={inputPlaceholder} onEnter={onEnter}/>
         <div className="centeredText">Chat player can answer with !answer</div>
         <div id={chattingPos}><img alt='chatting' src={chattingImg}/></div>
     </>)

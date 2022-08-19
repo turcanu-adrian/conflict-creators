@@ -14,6 +14,7 @@ body {
     background-color: #212126;
     padding-top: 2vh;
     padding-bottom: 2vh;
+    overflow: hidden;
 }
 
 #gameContainer {

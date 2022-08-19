@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MainMenu } from "./MainMenu";
-import { ParasocialConfrontation } from "../GameModes/SoloGame/SoloGame.js";
-import {StreamerProfile} from "./Components/StreamerProfile.js";
+import { ParasocialConfrontation } from "../GameModes/ParasocialConfrontation/ParasocialConfrontation.js";
+import {CreatorCheck} from "../GameModes/CreatorCheck/CreatorCheck.js";
 
 const GamePage = (props) =>
 {
@@ -9,11 +9,11 @@ const GamePage = (props) =>
 
     const states = Object.freeze({
         mainMenu: <MainMenu changeState={setGameState}/>,
-        parasocialConfrontation: <ParasocialConfrontation changeState={setGameState}/>
+        parasocialConfrontation: <ParasocialConfrontation changeState={setGameState}/>,
+        creatorCheck: <CreatorCheck changeState={setGameState}/>
     })
 
     return (<>
-    <StreamerProfile/>
     {states[currentState]}
     </>)
 }

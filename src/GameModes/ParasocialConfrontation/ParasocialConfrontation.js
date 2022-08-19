@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { LoadingPhase, JoinPhase, ChatAnswerPhase, FaceOffPhase, PlayerAnswerPhase, RoundEndPhase, GameEndPhase } from "../Phases/Phases.js";
 import { joinPhaseFunction, chatAnswerPhaseFunction, faceOffPhaseFunction, playerAnswerPhaseFunction } from "../Phases/Phases.js";
 import {  getChat, getQuestions, initializeVars } from "./helperFunctions.js";
+import { StreamerProfile } from "../../GamePage/Components/StreamerProfile.js";
 
 const ParasocialConfrontation = (props) => {
   // eslint-disable-next-line
@@ -75,14 +76,29 @@ const ParasocialConfrontation = (props) => {
     const otherPlayer = (player === 'chatPlayer') ? 'streamerPlayer' : 'chatPlayer';
     const submittedAnswers = gameVars.current['playerAnswers'];
     const answerPosition = gameVars.current['chatAnswers'].find(element => element[0]===answer);
+    const wrongAnswer = new Audio('./sounds/wrongAnswer.mp3');
+    const correctAnswer = new Audio('./sounds/correctAnswer.mp3');
+    wrongAnswer.volume=0.5;
+    correctAnswer.volume=0.5;
+
+    gameVars.current['playerStats'][player]['lastAnswer']=answer;
 
     if (!submittedAnswers.includes(answer))
         {
           submittedAnswers.push(answer);
           gameVars.current['playerStats'][player]['strikes'] += (answerPosition ? 0 : 1);
+          if (answerPosition)
+            correctAnswer.play();
+          else
+            wrongAnswer.play();
         }
     else
-        gameVars.current['playerStats'][player]['strikes']++;
+        {
+          gameVars.current['playerStats'][player]['strikes']++;
+          wrongAnswer.play();
+        }
+      
+    
       
     if (gameVars.current['playerStats'][otherPlayer]['strikes']===parseInt(process.env.REACT_APP_MAX_STRIKES))
       {
@@ -99,7 +115,10 @@ const ParasocialConfrontation = (props) => {
   }
 
 
-  return (phaseElement[gameVars.current['phaseRef']]);
+  return (<>
+    <StreamerProfile lastAnswer={gameVars.current['playerStats']['streamerPlayer']['lastAnswer']}/>
+    {phaseElement[gameVars.current['phaseRef']]}
+  </>);
 
 }
 

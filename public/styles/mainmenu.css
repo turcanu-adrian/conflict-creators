@@ -1,6 +1,6 @@
 /* MAIN MENU */
 .centeredText{
-    font-size: max(20px, 2vw);
+    font-size: 2vw;
     position: relative;
     margin-left: auto;
     margin-right: auto;
@@ -8,11 +8,26 @@
 }
 
 .centeredText button{
-    font-size: max(20px, 2vw);
+    font-size: 2vw;
     text-align: center;
     color: white;
     padding: 0.3em;
     height: 2em;
     background-color: #6441a5;
     border-radius: 1.5vw;
+    cursor: pointer;
+    transition: font-size 0.5s;
+}
+
+.centeredText button:hover{
+    font-size: 3vw;
+}
+
+.centeredText button:hover::after{
+    white-space: pre-wrap;
+    font-size: 1vw;
+    content: '';
+    position: absolute;
+    right: 3%;
+    text-align:left;
 }
