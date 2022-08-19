@@ -1,8 +1,8 @@
-import { Timer } from "../../GamePage/Timer.js";
-import {Answers} from "../../GamePage/Answers.js";
-import {PlayerProfile} from "../../GamePage/PlayerProfile";
+import { Timer } from "../../GamePage/Components/Timer.js";
+import {Answers} from "../../GamePage/Components/Answers.js";
+import {PlayerProfile} from "../../GamePage/Components/PlayerProfile";
 import {resetVars} from "../SoloGame/helperFunctions";
-import { PlayerStats } from "../../GamePage/PlayerStats.js";
+import { PlayerStats } from "../../GamePage/Components/PlayerStats.js";
 
 
 const RoundEndPhase = (props) => {

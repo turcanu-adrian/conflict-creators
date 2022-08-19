@@ -1,6 +1,6 @@
-import {Timer} from "../../GamePage/Timer";
-import {PlayerProfile} from "../../GamePage/PlayerProfile";
-import {Question} from "../../GamePage/Question";
+import {Timer} from "../../GamePage/Components/Timer";
+import {PlayerProfile} from "../../GamePage/Components/PlayerProfile";
+import {Question} from "../../GamePage/Components/Question";
 
 function chatAnswerPhaseFunction(tags, message, gameVars){
     function getOccurence(array, value){

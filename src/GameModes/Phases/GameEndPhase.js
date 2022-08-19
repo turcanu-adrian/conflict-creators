@@ -1,6 +1,6 @@
-import {Answers} from "../../GamePage/Answers.js";
-import {PlayerProfile} from "../../GamePage/PlayerProfile";
-import {PlayerStats} from "../../GamePage/PlayerStats";
+import {Answers} from "../../GamePage/Components/Answers.js";
+import {PlayerProfile} from "../../GamePage/Components/PlayerProfile";
+import {PlayerStats} from "../../GamePage/Components/PlayerStats";
 
 const GameEndPhase = (props) => {
     const streamerPoints = props.gameVars['playerStats']['streamerPlayer']['totalPoints'];

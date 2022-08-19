@@ -1,4 +1,4 @@
-import {Timer} from "../../GamePage/Timer"
+import {Timer} from "../../GamePage/Components/Timer"
  
 function joinPhaseFunction(tags, message, joiners){
     if (message.startsWith('!join') && !joiners.find(element => element.name===tags['display-name'])) //CHECK IF MESSAGE STARTS WITH !join AND CHATTER DIDN'T ALREADY JOIN

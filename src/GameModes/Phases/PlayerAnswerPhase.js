@@ -1,10 +1,10 @@
-import { StreamerInput } from "../../GamePage/StreamerInput.js";
-import { Timer } from "../../GamePage/Timer.js";
-import {Answers} from "../../GamePage/Answers.js";
-import {PlayerProfile} from "../../GamePage/PlayerProfile";
-import {PlayerStats} from "../../GamePage/PlayerStats";
+import { StreamerInput } from "../../GamePage/Components/StreamerInput.js";
+import { Timer } from "../../GamePage/Components/Timer.js";
+import {Answers} from "../../GamePage/Components/Answers.js";
+import {PlayerProfile} from "../../GamePage/Components/PlayerProfile";
+import {PlayerStats} from "../../GamePage/Components/PlayerStats";
 import { useState, useEffect } from "react";
-import {Question} from "../../GamePage/Question";
+import {Question} from "../../GamePage/Components/Question";
 
 function playerAnswerPhaseFunction(tags, message, gameVars, addAnswer){
     const validMessage=message.startsWith('!answer') && tags['display-name'] === gameVars['chatPlayer']
@@ -19,6 +19,10 @@ const PlayerAnswerPhase = (props) => {
         if (props.gameVars['playerAnswers'].includes(answer[0]))
             revealedAnswers++;
     }); 
+
+    function onEnter(answer){
+        props.addAnswer(answer, 'streamerPlayer');
+    }
 
     useEffect(() => {
         if (revealedAnswers === props.gameVars['chatAnswers'].length){
@@ -38,6 +42,9 @@ const PlayerAnswerPhase = (props) => {
         setLastAnswer(props.gameVars['playerAnswers'][props.gameVars['playerAnswers'].length-1])
     }
 
+    const inputDisabled =  props.gameVars['currentPlayer'] === 'chatPlayer' ? true : false
+    const inputPlaceholder = props.gameVars['currentPlayer'] === 'chatPlayer' ? 'Chat player`s turn...' : 'Streamer, type your answer here!'
+
     const chattingImg = new Image().src=process.env.REACT_APP_CHATTING_EMOTE;
     const chattingPos = (props.gameVars['currentPlayer']==='streamerPlayer' ? 'chattingLeft' : 'chattingRight')
 
@@ -47,7 +54,8 @@ const PlayerAnswerPhase = (props) => {
         <Timer key={lastAnswer} timerFinish={timerFinish} timerStart={20}/>
         <Question question={props.gameVars['currentQuestion']}/>
         <Answers gameVars={props.gameVars}/>
-        <StreamerInput gameVars={props.gameVars} addAnswer={props.addAnswer}/>
+        <StreamerInput gameVars={props.gameVars} disabled={inputDisabled} placeholder={inputPlaceholder} onEnter={onEnter} addAnswer={props.addAnswer}/>
+        <div className="centeredText">Chat player can answer with !answer</div>
         <div id={chattingPos}><img alt='chatting' src={chattingImg}/></div>
     </>)
 
