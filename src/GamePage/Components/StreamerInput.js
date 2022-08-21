@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const StreamerInput = (props) => {
     const [userInput, setUserInput] = useState('');
@@ -12,14 +12,11 @@ const StreamerInput = (props) => {
         {
             let answer = userInput.toUpperCase().split(' ')[0];
             setUserInput('');
-
             props.onEnter(answer);
         }
     }
-    
 
-
-    return (<input value={userInput} disabled={props.disabled} onChange={onChange} onKeyDown={onKeyDown} type="text" autoComplete="off" placeholder={props.placeholder} id="streamerInput"></input>)
+    return (<input autoFocus value={userInput} disabled={props.disabled} onChange={onChange} onKeyDown={onKeyDown} type="text" autoComplete="off" placeholder={props.placeholder} id="streamerInput"></input>)
 }
 
 export {StreamerInput}

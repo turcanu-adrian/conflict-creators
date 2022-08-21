@@ -1,5 +1,4 @@
 import {Timer} from "../../GamePage/Components/Timer";
-import {PlayerProfile} from "../../GamePage/Components/PlayerProfile";
 import {Question} from "../../GamePage/Components/Question";
 
 function chatAnswerPhaseFunction(tags, message, gameVars){
@@ -19,22 +18,28 @@ function chatAnswerPhaseFunction(tags, message, gameVars){
 }
 
 const ChatAnswerPhase = (props) => {
-    
+    if (!props.gameVars['currentQuestion'])
+        {
+            props.gameVars['currentQuestion']=props.gameVars['questions'][Math.floor(Math.random()*props.gameVars['questions'].length)]; //SELECT RANDOM QUESTION
+            props.gameVars['chatSubmitters'].splice(0, props.gameVars['chatSubmitters'].length); //EMPTY THE chatSubmitters ARRAY
+        }
+
     function timerFinish(){
         if (!props.gameVars['chatSubmitters'].length)
             alert('No one submitted an answer, refresh the page to try again');
         else
-        {const x = Object.entries(props.gameVars['chatAnswers']).sort(function(a, b) { //GET TOP 8 ANSWERS
-            return b[1] - a[1];
-        }).splice(0,(10-2*props.gameVars['currentRound']));
-        props.gameVars['chatAnswers']=x;
-        props.updatePhase('faceOff');}
+        {
+            const x = Object.entries(props.gameVars['chatAnswers']).sort(function(a, b) { //GET TOP 8 ANSWERS
+                return b[1] - a[1];
+            }).splice(0,props.answersNumber);
+            props.gameVars['chatAnswers']=x;
+            props.updatePhase(props.nextPhase);
+        }
     }
 
     const chatExample = new Image().src=process.env.REACT_APP_CHAT_EXAMPLE;
     
     return (<>
-        <PlayerProfile chatPlayer={props.gameVars['chatPlayer']}/>
         <Timer timerFinish={timerFinish} timerStart={60}/>
         <div className="centeredText">Chat survey time!</div>
         <Question question={props.gameVars['currentQuestion']}/>

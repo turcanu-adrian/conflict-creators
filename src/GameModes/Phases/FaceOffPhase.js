@@ -2,7 +2,6 @@ import { StreamerInput } from "../../GamePage/Components/StreamerInput.js";
 import { Timer } from "../../GamePage/Components/Timer.js";
 import {Buzzers} from "../../GamePage/Components/Buzzers.js";
 import {Answers} from "../../GamePage/Components/Answers.js";
-import {PlayerProfile} from "../../GamePage/Components/PlayerProfile";
 import {Question} from "../../GamePage/Components/Question";
 
 function faceOffPhaseFunction(tags, message, gameVars){
@@ -29,7 +28,7 @@ const FaceOffPhase = (props) => {
         const streamerAnswerPos=props.gameVars['chatAnswers'].findIndex(element => element[0]===props.gameVars['playerStats']['streamerPlayer']['lastAnswer']);
         const chatPlayerAnswerPos=props.gameVars['chatAnswers'].findIndex(element => element[0]===props.gameVars['playerStats']['chatPlayer']['lastAnswer']);
         props.gameVars['currentPlayer']=(streamerAnswerPos > chatPlayerAnswerPos ? 'streamerPlayer' : 'chatPlayer');
-        props.updatePhase('playerAnswer');
+        props.updatePhase(props.nextPhase);
     }
 
     function onEnter(answer){
@@ -47,7 +46,6 @@ const FaceOffPhase = (props) => {
 
     const chattingImg = new Image().src=process.env.REACT_APP_CHATTING_EMOTE;    
     return (<>
-        <PlayerProfile chatPlayer={props.gameVars['chatPlayer']} lastAnswer={props.gameVars['playerStats']['chatPlayer']['lastAnswer']}/>
         <Buzzers playerStats={props.gameVars['playerStats']}/>
         <Timer timerFinish={timerFinish} timerStart={20}/>
         <div className="centeredText">FaceOff round!</div>

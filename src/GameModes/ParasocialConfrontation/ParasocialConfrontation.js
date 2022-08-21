@@ -3,8 +3,9 @@ import HackTimer from "hacktimer";
 import React, { useEffect, useState, useRef } from "react";
 import { LoadingPhase, JoinPhase, ChatAnswerPhase, FaceOffPhase, PlayerAnswerPhase, RoundEndPhase, GameEndPhase } from "../Phases/Phases.js";
 import { joinPhaseFunction, chatAnswerPhaseFunction, faceOffPhaseFunction, playerAnswerPhaseFunction } from "../Phases/Phases.js";
-import {  getChat, getQuestions, initializeVars } from "./helperFunctions.js";
+import {  getChat, getQuestions, initializeVars } from "../helperFunctions.js";
 import { StreamerProfile } from "../../GamePage/Components/StreamerProfile.js";
+import { PlayerProfile } from "../../GamePage/Components/PlayerProfile.js";
 
 const ParasocialConfrontation = (props) => {
   // eslint-disable-next-line
@@ -18,14 +19,19 @@ const ParasocialConfrontation = (props) => {
     setPhase(gameVars.current['phaseRef']);
   }
 
+  const streamerPoints = gameVars.current['playerStats']['streamerPlayer']['totalPoints'];
+  const chatPoints = gameVars.current['playerStats']['chatPlayer']['totalPoints'];
+  const winner = (streamerPoints>chatPoints ? sessionStorage['display_name'] : 'Chat');
+  const winnerPoints = (streamerPoints>chatPoints ? streamerPoints : chatPoints);
+
   const phaseElement = Object.freeze({
       loading: <LoadingPhase/>,
-      join: <JoinPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
-      chatAnswer:<ChatAnswerPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
-      faceOff:<FaceOffPhase updatePhase={updatePhase} addAnswer={addAnswer} gameVars={gameVars.current}/>,
-      playerAnswer: <PlayerAnswerPhase updatePhase={updatePhase} addAnswer={addAnswer} gameVars={gameVars.current}/>,
-      roundEnd: <RoundEndPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
-      gameEnd: <GameEndPhase gameVars={gameVars.current} changeState={props.changeState}/>
+      join: <JoinPhase nextPhase={'chatAnswer'} updatePhase={updatePhase} gameVars={gameVars.current}/>,
+      chatAnswer:<><PlayerProfile playerStats={gameVars.current['playerStats']} chatPlayer={gameVars.current['chatPlayer']}/><ChatAnswerPhase nextPhase={'faceOff'} updatePhase={updatePhase} gameVars={gameVars.current} answersNumber={8-2*gameVars.current['currentRound']}/></>,
+      faceOff:<><PlayerProfile playerStats={gameVars.current['playerStats']} chatPlayer={gameVars.current['chatPlayer']} /><FaceOffPhase nextPhase={'playerAnswer'} updatePhase={updatePhase} addAnswer={addAnswer} gameVars={gameVars.current}/></>,
+      playerAnswer: <><PlayerProfile playerStats={gameVars.current['playerStats']} chatPlayer={gameVars.current['chatPlayer']} /><PlayerAnswerPhase nextPhase={'roundEnd'} updatePhase={updatePhase} addAnswer={addAnswer} gameVars={gameVars.current}/></>,
+      roundEnd: <><PlayerProfile playerStats={gameVars.current['playerStats']} chatPlayer={gameVars.current['chatPlayer']} /><RoundEndPhase nextPhase={'join'} updatePhase={updatePhase} gameVars={gameVars.current}/></>,
+      gameEnd: <GameEndPhase gameVars={gameVars.current} winner={winner} winnerPoints={winnerPoints} changeState={props.changeState}/>
   });
 
   const phaseFunction = Object.freeze({
@@ -106,7 +112,7 @@ const ParasocialConfrontation = (props) => {
         gameVars.current['chatAnswers'].forEach(answer => {
           if (gameVars.current['playerAnswers'].includes(answer[0]))
             gameVars.current['playerStats'][gameVars.current['currentPlayer']]['roundPoints']+=answer[1];
-        }); 
+        });
         updatePhase('roundEnd');
         return;
       }
@@ -116,7 +122,7 @@ const ParasocialConfrontation = (props) => {
 
 
   return (<>
-    <StreamerProfile lastAnswer={gameVars.current['playerStats']['streamerPlayer']['lastAnswer']}/>
+    <StreamerProfile playerStats={gameVars.current['playerStats']}/>
     {phaseElement[gameVars.current['phaseRef']]}
   </>);
 

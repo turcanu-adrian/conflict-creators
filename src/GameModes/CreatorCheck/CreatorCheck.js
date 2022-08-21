@@ -1,10 +1,11 @@
+// eslint-disable-next-line
 import HackTimer from "hacktimer";
 import { useState, useEffect, useRef } from "react";
-import { getChat, getQuestions } from "../ParasocialConfrontation/helperFunctions";
+import { getChat, getQuestions, initializeVars } from "../helperFunctions";
 import { LoadingPhase, ChatAnswerPhase, RoundEndPhase, GameEndPhase } from "../Phases/Phases.js";
 import { StreamerAnswerPhase } from "../Phases/StreamerAnswerPhase";
 import { chatAnswerPhaseFunction } from "../Phases/Phases.js";
-import { initializeVars } from "../ParasocialConfrontation/helperFunctions";
+import { StreamerProfile } from "../../GamePage/Components/StreamerProfile";
 
 const CreatorCheck = (props) => {
     const [currentPhase, setPhase] = useState('loading');
@@ -18,10 +19,9 @@ const CreatorCheck = (props) => {
 
     const phaseElement = Object.freeze({
         loading: <LoadingPhase/>,
-        chatAnswer: <ChatAnswerPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
-        streamerAnswer : <StreamerAnswerPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
-        roundEndPhase: <RoundEndPhase updatePhase={updatePhase} gameVars={gameVars.current}/>,
-        gameEnd: <GameEndPhase/>
+        chatAnswer: <ChatAnswerPhase nextPhase={'streamerAnswer'} updatePhase={updatePhase} gameVars={gameVars.current} answersNumber={4}/>,
+        streamerAnswer : <StreamerAnswerPhase nextPhase={'chatAnswer'} updatePhase={updatePhase} gameVars={gameVars.current} />,
+        gameEnd: <GameEndPhase gameVars={gameVars.current} winner={sessionStorage['display_name']} winnerPoints={gameVars.current['playerStats']['streamerPlayer']['totalPoints']} changeState={props.changeState}/>
     });
 
     useEffect(() => {
@@ -55,9 +55,12 @@ const CreatorCheck = (props) => {
             clearInterval(timerID);
             chat.disconnect();
         }
-    });
+    }, []);
 
-    return (phaseElement[gameVars.current['currentPhase']]);
+    return (<>
+        <StreamerProfile playerStats={gameVars.current['playerStats']}/>
+        {phaseElement[currentPhase]}
+    </>);
 
 }
 

@@ -3,6 +3,7 @@ import { Timer } from "../../GamePage/Components/Timer";
 import { Question } from "../../GamePage/Components/Question";
 import { Answers } from "../../GamePage/Components/Answers";
 import { StreamerInput } from "../../GamePage/Components/StreamerInput";
+import { resetVars } from "../helperFunctions";
 
 
 const StreamerAnswerPhase = (props) => {
@@ -15,28 +16,60 @@ const StreamerAnswerPhase = (props) => {
     }); 
 
     function addAnswer(answer){
+        const submittedAnswers = props.gameVars['playerAnswers'];
+        const answerPosition = props.gameVars['chatAnswers'].find(element => element[0]===answer);
+        const wrongAnswer = new Audio('./sounds/wrongAnswer.mp3');
+        const correctAnswer = new Audio('./sounds/correctAnswer.mp3');
+        wrongAnswer.volume=0.5;
+        correctAnswer.volume=0.5;
+        const goodAnswer = !submittedAnswers.includes(answer) && answerPosition;
 
+        props.gameVars['playerStats']['streamerPlayer']['strikes'] += (goodAnswer) ? 0 : 1;
+        props.gameVars['playerStats']['streamerPlayer']['lastAnswer']=answer;
+        
+        if (!submittedAnswers.includes(answer))
+            submittedAnswers.push(answer);
+        
+        if (goodAnswer)
+            correctAnswer.play();
+        else
+            wrongAnswer.play();
+
+        if (props.gameVars['playerStats']['streamerPlayer']['strikes'] === parseInt(process.env.REACT_APP_MAX_STRIKES))
+                {
+                    props.gameVars['chatAnswers'].forEach(answer => {
+                        if (props.gameVars['playerAnswers'].includes(answer[0]))
+                            props.gameVars['playerStats']['streamerPlayer']['roundPoints']+=answer[1];
+                    });
+                    resetVars(props.gameVars);
+                    props.updatePhase('gameEnd');
+                }
     }
 
     useEffect(() => {
         if (revealedAnswers === props.gameVars['chatAnswers'].length){
             props.gameVars['chatAnswers'].forEach(answer => {
                 if (props.gameVars['playerAnswers'].includes(answer[0]))
-                    props.gameVars['playerStats'][props.gameVars['currentPlayer']]['roundPoints']+=answer[1];
+                    props.gameVars['playerStats']['streamerPlayer']['roundPoints']+=answer[1];
             }); 
-            props.updatePhase('roundEnd');
+            resetVars(props.gameVars);
+            props.updatePhase(props.nextPhase);
     }}, [revealedAnswers])
 
-    function onEnter(){
-
+    function onEnter(answer){
+        addAnswer(answer);
     }
+
+    if (lastAnswer !== props.gameVars['playerStats']['streamerPlayer']['lastAnswer'])
+        setLastAnswer(props.gameVars['playerStats']['streamerPlayer']['lastAnswer'])
 
     function timerFinish(){
-        onEnter();
+        if (props.gameVars['playerStats']['streamerPlayer']['lastAnswer'] === lastAnswer)
+            addAnswer('NO ANSWER');
+        setLastAnswer(props.gameVars['playerStats']['streamerPlayer']['lastAnswer']);
     }
 
-    const inputPlaceholder = 'test';
-    const inputDisabled = props.gameVars['playerStats']['streamerPlayer']['strikes'] === process.env.REACT_APP_MAX_STRIKES ? true : false;
+    const inputPlaceholder = 'Streamer, type your answer here!';
 
     return (<>
         <Timer key={lastAnswer} timerFinish={timerFinish} timerStart={20}/>

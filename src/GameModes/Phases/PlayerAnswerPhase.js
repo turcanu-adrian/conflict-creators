@@ -1,8 +1,6 @@
 import { StreamerInput } from "../../GamePage/Components/StreamerInput.js";
 import { Timer } from "../../GamePage/Components/Timer.js";
 import {Answers} from "../../GamePage/Components/Answers.js";
-import {PlayerProfile} from "../../GamePage/Components/PlayerProfile";
-import {PlayerStats} from "../../GamePage/Components/PlayerStats";
 import { useState, useEffect } from "react";
 import {Question} from "../../GamePage/Components/Question";
 
@@ -30,7 +28,7 @@ const PlayerAnswerPhase = (props) => {
                 if (props.gameVars['playerAnswers'].includes(answer[0]))
                     props.gameVars['playerStats'][props.gameVars['currentPlayer']]['roundPoints']+=answer[1];
             }); 
-            props.updatePhase('roundEnd');
+            props.updatePhase(props.nextPhase);
     }}, [revealedAnswers])
 
     if (lastAnswer !== props.gameVars['playerStats'][props.gameVars['currentPlayer']]['lastAnswer'])
@@ -49,8 +47,6 @@ const PlayerAnswerPhase = (props) => {
     const chattingPos = (props.gameVars['currentPlayer']==='streamerPlayer' ? 'chattingLeft' : 'chattingRight')
 
     return (<>
-        <PlayerProfile chatPlayer={props.gameVars['chatPlayer']} lastAnswer={props.gameVars['playerStats']['chatPlayer']['lastAnswer']}/>
-        <PlayerStats playerStats={props.gameVars['playerStats']}/>
         <Timer key={lastAnswer} timerFinish={timerFinish} timerStart={20}/>
         <Question question={props.gameVars['currentQuestion']}/>
         <Answers gameVars={props.gameVars}/>
