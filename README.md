@@ -1,3 +1,3 @@
-polska gurom
+Family Feud-like game that is to be played on a Twitch livestream, against Twitch chat. 
 
-deployed at https://turcanu-adrian.github.io/family-feud-revamp/
+Currently deployed at https://creatorconflict.com/

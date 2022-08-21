@@ -46,7 +46,6 @@ const FaceOffPhase = (props) => {
 
     const chattingImg = new Image().src=process.env.REACT_APP_CHATTING_EMOTE;    
     return (<>
-        <Buzzers playerStats={props.gameVars['playerStats']}/>
         <Timer timerFinish={timerFinish} timerStart={20}/>
         <div className="centeredText">FaceOff round!</div>
         <Question question={props.gameVars['currentQuestion']}/>
